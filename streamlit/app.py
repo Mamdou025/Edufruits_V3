@@ -24,23 +24,16 @@ import architecture_images
 
 
 # Debug the path detection
-st.write("**Path Debug:**")
-st.write(f"Current directory: {os.getcwd()}")
-st.write(f"Does 'images' exist? {os.path.exists('images')}")
-st.write(f"Does 'streamlit/images' exist? {os.path.exists('streamlit/images')}")
+
 
 # Smart path detection with debug
 if os.path.exists("images"):
     image_path = "images/"
-    st.write(f"✅ Using local path: {image_path}")
 else:
     image_path = "streamlit/images/"
-    st.write(f"✅ Using cloud path: {image_path}")
+    
 
-# Test the full path
-full_path = f"{image_path}bloc1.png"
-st.write(f"Full image path: {full_path}")
-st.write(f"Does this file exist? {os.path.exists(full_path)}")
+
 
 # List what's actually in the images directory
 try:
