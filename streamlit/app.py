@@ -618,7 +618,7 @@ Le réseau commence par analyser l'image avec **deux couches convolutionnelles s
 
                # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
-        st.image("images/bloc1.png", caption="Description de votre image", width=900) 
+        st.image(f"{image_path}bloc1.png", caption="Description de votre image", width=900) 
         
         st.markdown("""
         <div class="info-box">
