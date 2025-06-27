@@ -591,7 +591,7 @@ def main():
             st.info("📸 Uploadez une image ou explorez avec l'exemple ci-dessous")
             
             try:
-                demo_img = Image.open("pomme1.png")  # Votre image
+                demo_img = Image.open(f"{image_path}.png")  # Votre image
                 current_image = demo_img
                 preprocessed_image = demo_img
             except:
