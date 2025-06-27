@@ -605,6 +605,32 @@ Le réseau commence par analyser l'image avec **deux couches convolutionnelles s
 
 **Résultat :** Le bloc transforme l'image RGB en 32 cartes de caractéristiques qui "voient" les contours du fruit.
 """)
+        
+
+# Debug: Check current directory and files
+st.write("**Debug Info:**")
+st.write(f"Current working directory: {os.getcwd()}")
+st.write(f"Files in current directory: {os.listdir('.')}")
+
+# Check if images folder exists
+if os.path.exists("images"):
+    st.write(f"Images folder exists! Files: {os.listdir('images')}")
+else:
+    st.write("❌ Images folder not found")
+    # Try different paths
+    if os.path.exists("streamlit/images"):
+        st.write(f"Found images at streamlit/images: {os.listdir('streamlit/images')}")
+    if os.path.exists("../images"):
+        st.write(f"Found images at ../images: {os.listdir('../images')}")
+                
+
+
+
+
+
+
+
+
                # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
         st.image("images/bloc1.png", caption="Description de votre image", width=900) 
