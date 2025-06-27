@@ -22,6 +22,33 @@ from pathlib import Path
 #importer des illustrations 
 import architecture_images
 
+
+# Debug the path detection
+st.write("**Path Debug:**")
+st.write(f"Current directory: {os.getcwd()}")
+st.write(f"Does 'images' exist? {os.path.exists('images')}")
+st.write(f"Does 'streamlit/images' exist? {os.path.exists('streamlit/images')}")
+
+# Smart path detection with debug
+if os.path.exists("images"):
+    image_path = "images/"
+    st.write(f"✅ Using local path: {image_path}")
+else:
+    image_path = "streamlit/images/"
+    st.write(f"✅ Using cloud path: {image_path}")
+
+# Test the full path
+full_path = f"{image_path}bloc1.png"
+st.write(f"Full image path: {full_path}")
+st.write(f"Does this file exist? {os.path.exists(full_path)}")
+
+# List what's actually in the images directory
+try:
+    st.write(f"Files in {image_path}: {os.listdir(image_path)}")
+except:
+    st.write(f"❌ Could not list files in {image_path}")
+        
+
 # Import du chargeur CSS
 from css_loader import apply_custom_styles
 
@@ -36,13 +63,7 @@ st.set_page_config(
 # Appliquer les styles CSS
 apply_custom_styles()
 
-# Smart path detection
-if os.path.exists("images"):
-    # Running locally from streamlit folder
-    image_path = "images/"
-else:
-    # Running from root (Streamlit Cloud)
-    image_path = "streamlit/images/"
+
 class EduFruitExplorer:
     def __init__(self):
         self.classes = ['Pomme', 'Banane', 'Avocat', 'Concombre', 'Citron']
@@ -613,6 +634,9 @@ Le réseau commence par analyser l'image avec **deux couches convolutionnelles s
 **Résultat :** Le bloc transforme l'image RGB en 32 cartes de caractéristiques qui "voient" les contours du fruit.
 """)
         
+        
+
+
 
 
 
