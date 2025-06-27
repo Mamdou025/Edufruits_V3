@@ -2,3 +2,4 @@ streamlit
 tf-nightly
 matplotlib
 opencv-python-headless
+plotly
