@@ -26,7 +26,7 @@ class EduFruitTester:
         self.model_path = model_path
         self.data_dir = data_dir
         
-        # Create output directories with correct paths
+        # Create output directories with correct pathsm--
         os.makedirs("../outputs/efficiency_tests", exist_ok=True)
         os.makedirs("../outputs/efficiency_plots", exist_ok=True)
         

@@ -15,16 +15,14 @@ EduFruit V3 est un système intelligent de classification de fruits développé 
 ## 🚀 Installation
 
 ```bash
-# 1. Cloner le repository
-git clone https://github.com/Mamdou025/Edufruits_V3.git
-cd Edufruits_V3
+
 
 # 2. Créer l'environnement virtuel
-python -m venv edufruit_env
+python -m venv edufruistv3_env
 
 # 3. Activer l'environnement
 # Windows
-edufruit_env\Scripts\activate
+edufruistv3_env\Scripts\activate
 # Linux/Mac
 source edufruit_env/bin/activate
 
