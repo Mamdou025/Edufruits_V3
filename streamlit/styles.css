@@ -1,0 +1,631 @@
+/* styles.css - Styles pour EduFruit V3 */
+
+/* Configuration globale */
+.main {
+    background-color: #FEFEFE;
+    font-family: 'Times New Roman', serif;
+    color: #000000;
+}
+
+
+.st-emotion-cache-1lqf7hx {
+    background-color: rgb(235, 235, 241);
+    border-color: #000000;
+ 
+
+}
+
+.st-emotion-cache-umot6g {
+
+    background-color: rgb(43, 44, 54);
+    border: 1px solid rgb(0 0 0);
+}
+
+.stApp {
+    background-color: #FEFEFE;
+    color: #000000;
+}
+
+/* Forcer le texte en noir partout */
+.stMarkdown, .stText, p, div, span, h1, h2, h3, h4, h5, h6 {
+    color: #000000 !important;
+}
+
+/* Styles pour les expanders - Titres plus grands */
+.streamlit-expanderHeader {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    color: #000000 !important;
+}
+
+.streamlit-expanderHeader p {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    margin: 0 !important;
+}
+
+.st-bt{
+    background-color: rgb(255, 255, 255);
+}
+.st-bx {
+    background-color: rgb(255 255 255);
+}
+.st-emotion-cache-umot6g {
+
+    background-color: #ffffff;
+}
+.st-emotion-cache-c8ta4l {
+    color: rgb(0 0 0 / 53%);
+    font-size: 0.875rem 14px;
+    line-height: 1.25;
+}
+.st-emotion-cache-z8vbw2:hover {
+    border-color: rgb(255 255 255);
+    color: rgb(255 255 255);
+}
+
+
+.st-emotion-cache-1erivf3{
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: rgb(221 222 231);
+    border-radius: 0.5rem;
+}
+/* Nouveau design pour la prédiction finale */
+.prediction-result-compact {
+    background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid #28a745;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(40, 167, 69, 0.1);
+    margin-top: 20px;
+}
+
+.prediction-result-compact h3 {
+    color: #28a745 !important;
+    margin-bottom: 15px !important;
+    font-size: 1.1em !important;
+}
+
+.fruit-prediction {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.fruit-emoji {
+    font-size: 3em;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.fruit-name {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #2c3e50 !important;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.confidence-score {
+    font-size: 2em;
+    font-weight: bold;
+    color: #28a745 !important;
+    margin: 10px 0 5px 0;
+}
+
+.confidence-label {
+    font-size: 0.9em;
+    color: #6c757d !important;
+    font-style: italic;
+}
+
+/* Conteneur de titre principal */
+.title-container {
+    background-color: white;
+    padding: 20px;
+    border: 2px solid #333;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #000000;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Conteneurs d'étapes */
+.step-container {
+    background-color: white;
+    border: 1px solid #333;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    color: #000000;
+    transition: all 0.3s ease;
+}
+
+.step-container:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+/* Boîtes d'informations */
+.formula-box {
+    background-color: #F8F9FA;
+    border: 1px solid #DDD;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    color: #000000;
+}
+
+.info-box {
+    background-color: #E8F4FD;
+    border-left: 4px solid #2196F3;
+    padding: 10px;
+    margin: 10px 0;
+    color: #000000;
+    border-radius: 5px;
+}
+
+.warning-box {
+    background-color: #FFF3CD;
+    border-left: 4px solid #FFC107;
+    padding: 10px;
+    margin: 10px 0;
+    color: #000000;
+    border-radius: 5px;
+}
+
+.success-box {
+    background-color: #D4EDDA;
+    border-left: 4px solid #28A745;
+    padding: 10px;
+    margin: 10px 0;
+    color: #000000;
+    border-radius: 5px;
+}
+
+/* Grille de filtres */
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.filter-card {
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+}
+
+.filter-card:hover {
+    border-color: #3498db;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+}
+
+/* Cartes de métriques */
+.metric-card {
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    margin: 10px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+/* Conteneur de progression */
+.progress-container {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #dee2e6;
+}
+
+/* En-têtes avec emojis */
+.emoji-header {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+/* Conteneur de prédiction */
+.prediction-container {
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    border: 2px solid #28a745;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 15px 0;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(40, 167, 69, 0.1);
+}
+
+.prediction-result {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* Conteneur d'architecture */
+.architecture-container {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .title-container {
+        padding: 15px;
+    }
+    
+    .step-container {
+        padding: 10px;
+    }
+    
+    .filter-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 0.5rem;
+    }
+    
+    .streamlit-expanderHeader {
+        font-size: 1.1em !important;
+    }
+    
+    .fruit-emoji {
+        font-size: 2.5em;
+    }
+    
+    .confidence-score {
+        font-size: 1.5em;
+    }
+    
+    .fruit-name {
+        font-size: 1.1em;
+    }
+}
+
+/* Boutons personnalisés */
+.custom-button {
+    background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.custom-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* Sidebar personnalisée */
+.sidebar-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #dee2e6;
+}
+
+/* Status indicators */
+.status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-success {
+    background-color: #28a745;
+}
+
+.status-warning {
+    background-color: #ffc107;
+}
+
+.status-error {
+    background-color: #dc3545;
+}/* styles.css - Styles pour EduFruit V3 */
+
+/* Configuration globale */
+.main {
+    background-color: #FEFEFE;
+    font-family: 'Times New Roman', serif;
+    color: #000000;
+}
+
+.stApp {
+    background-color: #FEFEFE;
+    color: #000000;
+}
+
+/* Forcer le texte en noir partout */
+.stMarkdown, .stText, p, div, span, h1, h2, h3, h4, h5, h6 {
+    color: #000000 !important;
+}
+
+/* Styles pour les expanders - Titres plus grands */
+.streamlit-expanderHeader {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    color: #000000 !important;
+}
+
+.streamlit-expanderHeader p {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    margin: 0 !important;
+}
+
+/* Conteneur de titre principal */
+.title-container {
+    background-color: white;
+    padding: 20px;
+    border: 2px solid #333;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #000000;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Conteneurs d'étapes */
+.step-container {
+    background-color: white;
+    border: 1px solid #333;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    color: #000000;
+    transition: all 0.3s ease;
+}
+
+.step-container:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+/* Boîtes d'informations */
+.formula-box {
+    background-color: #F8F9FA;
+    border: 1px solid #DDD;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    color: #000000;
+}
+
+.info-box {
+    background-color: #E8F4FD;
+    border-left: 4px solid #2196F3;
+    padding: 10px;
+    margin: 10px 0;
+    color: #000000;
+    border-radius: 5px;
+}
+
+.warning-box {
+    background-color: #FFF3CD;
+    border-left: 4px solid #FFC107;
+    padding: 10px;
+    margin: 10px 0;
+    color: #000000;
+    border-radius: 5px;
+}
+
+.success-box {
+    background-color: #D4EDDA;
+    border-left: 4px solid #28A745;
+    padding: 10px;
+    margin: 10px 0;
+    color: #000000;
+    border-radius: 5px;
+}
+
+/* Grille de filtres */
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.filter-card {
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+}
+
+.filter-card:hover {
+    border-color: #3498db;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+}
+
+/* Cartes de métriques */
+.metric-card {
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    margin: 10px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+/* Conteneur de progression */
+.progress-container {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #dee2e6;
+}
+
+/* En-têtes avec emojis */
+.emoji-header {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+/* Conteneur de prédiction */
+.prediction-container {
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    border: 2px solid #28a745;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 15px 0;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(40, 167, 69, 0.1);
+}
+
+.prediction-result {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* Conteneur d'architecture */
+.architecture-container {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .title-container {
+        padding: 15px;
+    }
+    
+    .step-container {
+        padding: 10px;
+    }
+    
+    .filter-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 0.5rem;
+    }
+    
+    .streamlit-expanderHeader {
+        font-size: 1.1em !important;
+    }
+}
+
+/* Boutons personnalisés */
+.custom-button {
+    background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.custom-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* Sidebar personnalisée */
+.sidebar-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #dee2e6;
+}
+
+/* Status indicators */
+.status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-success {
+    background-color: #28a745;
+}
+
+.status-warning {
+    background-color: #ffc107;
+}
+
+.status-error {
+    background-color: #dc3545;
+}
