@@ -33,15 +33,6 @@ else:
     image_path = "streamlit/images/"
     
 
-
-
-# List what's actually in the images directory
-try:
-    st.write(f"Files in {image_path}: {os.listdir(image_path)}")
-except:
-    st.write(f"❌ Could not list files in {image_path}")
-        
-
 # Import du chargeur CSS
 from css_loader import apply_custom_styles
 
