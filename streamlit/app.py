@@ -36,6 +36,13 @@ st.set_page_config(
 # Appliquer les styles CSS
 apply_custom_styles()
 
+# Smart path detection
+if os.path.exists("images"):
+    # Running locally from streamlit folder
+    image_path = "images/"
+else:
+    # Running from root (Streamlit Cloud)
+    image_path = "streamlit/images/"
 class EduFruitExplorer:
     def __init__(self):
         self.classes = ['Pomme', 'Banane', 'Avocat', 'Concombre', 'Citron']
@@ -607,28 +614,6 @@ Le réseau commence par analyser l'image avec **deux couches convolutionnelles s
 """)
         
 
-# Debug: Check current directory and files
-st.write("**Debug Info:**")
-st.write(f"Current working directory: {os.getcwd()}")
-st.write(f"Files in current directory: {os.listdir('.')}")
-
-# Check if images folder exists
-if os.path.exists("images"):
-    st.write(f"Images folder exists! Files: {os.listdir('images')}")
-else:
-    st.write("❌ Images folder not found")
-    # Try different paths
-    if os.path.exists("streamlit/images"):
-        st.write(f"Found images at streamlit/images: {os.listdir('streamlit/images')}")
-    if os.path.exists("../images"):
-        st.write(f"Found images at ../images: {os.listdir('../images')}")
-                
-
-
-
-
-
-
 
 
                # === AJOUT DE L'ILLUSTRATION ===
@@ -689,7 +674,7 @@ Le deuxième bloc se concentre sur l'analyse des **textures et motifs complexes*
 """)
                 # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
-        st.image("images/bloc2.png", caption="Description de votre image", width=900) 
+        st.image(f"{image_path}bloc2.png", caption="Description de votre image", width=900) 
         
         st.markdown("""
         <div class="info-box">
@@ -735,7 +720,7 @@ Le troisième bloc se concentre sur la **reconnaissance de formes géométriques
 """)
                 # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
-        st.image("images/bloc3.png", caption="Description de votre image", width=900) 
+        st.image(f"{image_path}bloc3.png", caption="Description de votre image", width=900) 
         
         
         st.markdown("""
@@ -783,7 +768,7 @@ Le bloc final est **hautement spécialisé** avec 256 filtres et une architectur
 """)
                 # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
-        st.image("images/bloc4.png", caption="Description de votre image", width=900) 
+        st.image(f"{image_path}bloc4.png", caption="Description de votre image", width=900) 
         
         st.markdown("""
         <div class="info-box">
@@ -820,7 +805,7 @@ Le bloc final est **hautement spécialisé** avec 256 filtres et une architectur
 """)
                         # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
-        st.image("images/moyenne.png", caption="Description de votre image", width=900) 
+        st.image(f"{image_path}moyenne.png", caption="Description de votre image", width=900) 
         
 
 
@@ -895,7 +880,7 @@ La classification utilise **trois couches denses successives** pour transformer 
 """)
                                 # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
-        st.image("images/finale.png", caption="Description de votre image", width=900) 
+        st.image(f"{image_path}finale.png", caption="Description de votre image", width=900) 
         
         st.markdown("""
         <div class="info-box">
