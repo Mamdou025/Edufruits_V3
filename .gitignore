@@ -10,9 +10,9 @@ ENV/
 edufruit_env/
 
 # Data
-data/raw/
 *.zip
 *.tar.gz
+
 
 # Models (optional - comment out if you want to version models)
 # models/*.h5
