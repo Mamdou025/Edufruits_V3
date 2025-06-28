@@ -9,6 +9,15 @@ import streamlit as st
 from PIL import Image
 import os
 
+
+# Smart path detection with debug
+if os.path.exists("images"):
+    image_path = "images/"
+else:
+    image_path = "streamlit/images/"
+    
+
+
 def check_image_exists(image_path):
     """Vérifie si une image existe, sinon affiche un placeholder avec debug info"""
     if os.path.exists(image_path):
@@ -35,14 +44,14 @@ def display_architecture_with_images():
     
     # Définir les chemins des images (vos images créées)
     image_paths = {
-        'input': 'images/input_100x100.png',      # Image 1: Grille grise
-        'bloc1': 'images/bloc1_stack.png',        # Image 2: Stack vert
-        'bloc2': 'images/bloc2_stack.png',        # Image 3: Stack violet
-        'bloc3': 'images/bloc3_stack.png',        # Image 4: Stack orange
-        'bloc4': 'images/bloc4_stack.png',        # Image 5: Stack rouge
-        'gap': 'images/gap_circles.png',          # Image 6: Cercles violets
-        'dense': 'images/neural_network.png',     # Image 7: Réseau de neurones
-        'predictions': 'images/predictions_bars.png'  # Image 8: À créer (barres)
+    'input': f'{image_path}input_100x100.png',      # Image 1: Grille grise
+    'bloc1': f'{image_path}bloc1_stack.png',        # Image 2: Stack vert
+    'bloc2': f'{image_path}bloc2_stack.png',        # Image 3: Stack violet
+    'bloc3': f'{image_path}bloc3_stack.png',        # Image 4: Stack orange
+    'bloc4': f'{image_path}bloc4_stack.png',        # Image 5: Stack rouge
+    'gap': f'{image_path}gap_circles.png',          # Image 6: Cercles violets
+    'dense': f'{image_path}neural_network.png',     # Image 7: Réseau de neurones
+    'predictions': f'{image_path}predictions_bars.png'  # Image 8: À créer (barres)
     }
     
     with cols[0]:  # Image d'entrée
@@ -248,7 +257,6 @@ def create_image_templates():
     create_stack_template('bloc3_stack.png', (251, 146, 60, 200))   # Orange
     create_stack_template('bloc4_stack.png', (248, 113, 113, 200))  # Rouge
     
-    st.success("Templates d'images créés dans le dossier 'images/'!")
 
 
 # Fonction principale pour l'utilisation
