@@ -57,27 +57,18 @@ class EduFruitExplorer:
         self.models_dir = self.get_models_directory()
         
     def get_models_directory(self):
-        """Obtenir le chemin vers le dossier models (au même niveau que streamlit)"""
-        # Obtenir le dossier parent du script actuel (sortir du dossier streamlit)
-        if '__file__' in globals():
-            # Si le script est exécuté normalement
-            current_script_dir = Path(__file__).parent  # Dossier streamlit
-            models_dir = current_script_dir.parent / "models"  # Remonter d'un niveau puis aller dans models
+        """Obtenir le chemin vers le dossier models dans le root du projet"""
+         # Toujours chercher dans le dossier models au niveau racine
+        if os.path.exists("models"):
+         # Déjà dans le root (Streamlit Cloud)
+           models_dir = Path("models")
         else:
-            # Si exécuté dans un environnement comme Jupyter ou Streamlit Cloud
-            current_dir = Path.cwd()
-            # Vérifier si on est dans le dossier streamlit
-            if current_dir.name == "streamlit":
-                models_dir = current_dir.parent / "models"
-            else:
-                # Chercher le dossier models au même niveau
-                models_dir = current_dir / "models"
-        
-        # Debug: afficher le chemin pour vérification
-        print(f"Chemin du script: {Path(__file__).parent if '__file__' in globals() else Path.cwd()}")
+         # Dans le dossier streamlit, remonter au root
+           models_dir = Path("../models")
+    
         print(f"Chemin recherché pour models: {models_dir}")
         print(f"Le dossier models existe: {models_dir.exists()}")
-        
+     
         return models_dir
     
     def get_latest_model(self):
