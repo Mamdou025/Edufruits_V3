@@ -96,7 +96,7 @@ def display_architecture_with_images():
     
     with cols[10]:  # GAP
         img_gap = check_image_exists(image_paths['gap'])
-        st.image(img_gap, width=200)  # ← Contrôle de la largeur
+        st.image(img_gap, width=300)  # ← Contrôle de la largeur
     
     with cols[11]:  # Flèche 6
         st.markdown("<div style='text-align:center; font-size:20px; padding-top:40px;'>→</div>", 
