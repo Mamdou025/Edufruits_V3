@@ -427,10 +427,10 @@ def main():
                     # In your sidebar, add this 1234:
         
         if is_streamlit_cloud():
-                                      st.write("**Deployed Environment Debug:**")
-                                      st.write(f"TensorFlow: {tf.__version__}")
-                                      st.write(f"Python: {sys.version}")
-                                      st.write(f"Platform: {platform.platform()}")
+          st.write("**Deployed Environment Debug:**")
+          st.write(f"TensorFlow: {tf.__version__}")
+          st.write(f"Python: {sys.version}")
+          st.write(f"Platform: {platform.platform()}")
         
                                    
         st.markdown("###  Paramètres & Informations")
