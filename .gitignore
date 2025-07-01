@@ -15,9 +15,6 @@ edufruit_env/
 data/processed/
 
 
-# Models (optional - comment out if you want to version models)
-models/*.h5
-
 # Outputs
 outputs/
 *.log
