@@ -18,12 +18,24 @@ import pandas as pd
 import os
 import glob
 from pathlib import Path
+import sys          # ADD THIS LINE
+import platform     # ADD THIS LINE
 
 #importer des illustrations 
 import architecture_images
 
 
-# Debug the path detection
+# Add this in your sidebar section
+def is_streamlit_cloud():
+    """Detect if running on Streamlit Cloud"""
+    return 'STREAMLIT_SERVER_PORT' in os.environ or 'STREAMLIT_CLOUD' in os.environ
+
+# In your sidebar, add this:
+if is_streamlit_cloud():
+    st.sidebar.write("**Deployed Environment Debug:**")
+    st.sidebar.write(f"TensorFlow: {tf.__version__}")
+    st.sidebar.write(f"Python: {sys.version}")
+    st.sidebar.write(f"Platform: {platform.platform()}")
 
 
 # Smart path detection with debug
@@ -417,6 +429,7 @@ def main():
     
     # Sidebar enrichie
     with st.sidebar:
+        
         st.markdown("###  Paramètres & Informations")
         
         # Chargement du modèle
