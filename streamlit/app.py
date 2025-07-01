@@ -25,17 +25,12 @@ import platform     # ADD THIS LINE
 import architecture_images
 
 
-# Add this in your sidebar section
+# Add this in your sidebar section 1234
 def is_streamlit_cloud():
     """Detect if running on Streamlit Cloud"""
     return 'STREAMLIT_SERVER_PORT' in os.environ or 'STREAMLIT_CLOUD' in os.environ
 
-# In your sidebar, add this:
-if is_streamlit_cloud():
-    st.sidebar.write("**Deployed Environment Debug:**")
-    st.sidebar.write(f"TensorFlow: {tf.__version__}")
-    st.sidebar.write(f"Python: {sys.version}")
-    st.sidebar.write(f"Platform: {platform.platform()}")
+
 
 
 # Smart path detection with debug
@@ -429,7 +424,15 @@ def main():
     
     # Sidebar enrichie
     with st.sidebar:
+                    # In your sidebar, add this 1234:
         
+        if is_streamlit_cloud():
+                                      st.write("**Deployed Environment Debug:**")
+                                      st.write(f"TensorFlow: {tf.__version__}")
+                                      st.write(f"Python: {sys.version}")
+                                      st.write(f"Platform: {platform.platform()}")
+        
+                                   
         st.markdown("###  Paramètres & Informations")
         
         # Chargement du modèle
