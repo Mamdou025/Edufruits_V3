@@ -1,16 +1,38 @@
 # 🍎 EduFruit V3 - Classification de Fruits Éducative
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://python.org)
-[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.10%2B-orange)](https://tensorflow.org)
-[![Streamlit](https://img.shields.io/badge/Streamlit-1.20%2B-red)](https://streamlit.io)
-[![Accuracy](https://img.shields.io/badge/Accuracy-99.6%25-brightgreen)](#-performance)
-[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+
 
 ## 🎯 Description
 
-EduFruit V3 est un système intelligent de classification de fruits développé dans un contexte éducatif. Utilisant l'apprentissage profond avec TensorFlow, ce projet offre une solution complète avec un modèle CNN haute performance (99,6% de précision) et une interface web interactive construite avec Streamlit.
+EduFruit V3 est un système intelligent de classification de fruits développé dans un contexte éducatif. Utilisant l'apprentissage profond avec TensorFlow, ce projet offre une solution complète avec un modèle CNN de bonne performaance et une interface web interactive construite avec Streamlit.
 
+Le projet combine :
+- 🧠 **Modélisation CNN robuste** avec TensorFlow/Keras
+- 🎨 **Interface pédagogique interactive** avec Streamlit
+- 📊 **Visualisation des couches internes** du réseau
+- 🔍 **Approche scientifique** avec validation externe
 
+## 🚀 Démonstration en ligne
+
+**[🔗 Essayer l'application](https://edufruitsv3-fgwb3rbfajrpqeoc3vaftc.streamlit.app)**
+
+## ✨ Fonctionnalités
+
+- **Classification en temps réel** d'images de fruits
+- **Visualisation couche par couche** du processus CNN
+- **Interface pédagogique** avec explications intégrées
+- **Tests de robustesse** sur images réelles et synthétiques
+- **Analyse des performances** avec métriques détaillées
+
+## 🎯 Performances du modèle
+
+| Métrique | Score |
+|----------|-------|
+| Précision globale | 93.2% |
+| Précision validation | 98.2% |
+| Classes supportées | 5 fruits |
+| Paramètres | ~846,000 |
+| Taille du modèle | 3.5 MB |
 
 ## 🚀 Installation
 
@@ -18,13 +40,13 @@ EduFruit V3 est un système intelligent de classification de fruits développé 
 
 
 # 2. Créer l'environnement virtuel
-python -m venv edufruistv3_env
+python -m venv edufruits_env
 
 # 3. Activer l'environnement
 # Windows
-edufruistv3_env\Scripts\activate
+edufruits_env\Scripts\activate
 # Linux/Mac
-source edufruit_env/bin/activate
+source edufruits_env/bin/activate
 
 # 4. Installer les dépendances
 pip install --upgrade pip
@@ -43,29 +65,32 @@ python verify_environment.py
 streamlit run app.py
 ```
 
-### Utilisation Programmatique
+### Tests effectués
+- ✅ **Images réelles** (smartphone, conditions variées)
+- ✅ **Images synthétiques** (test de biais couleur)
+- ✅ **Images bruitées** (robustesse)
+- ✅ **Validation croisée** train/test stricte
 
-```python
-from tensorflow.keras.models import load_model
-import numpy as np
-from PIL import Image
+### Cas d'usage typiques
+- 🍌 **Bananes :** Très haute précision (>95%)
+- 🍎 **Pommes :** Bonne reconnaissance toutes variétés
+- 🥒 **Concombres :** Sensible au cadrage et orientation
+- 🍋 **Citrons :** Parfois confondus avec bananes si allongés
 
-# Charger le modèle
-model = load_model('models\edufruit_best_20250622_224456.h5')
+## 📜 Évolution du projet
 
-# Préparer l'image
-img = Image.open('votre_image.jpg').resize((100, 100))
-img_array = np.array(img) / 255.0
-img_array = np.expand_dims(img_array, axis=0)
+### Version 3.0 (Actuelle)
+- ✅ Architecture CNN optimisée
+- ✅ Interface Streamlit complète
+- ✅ Validation externe robuste
+- ✅ Documentation pédagogique
 
-# Prédiction
-prediction = model.predict(img_array)
-classes = ['Pomme', 'Banane', 'Avocat', 'Concombre', 'Citron']
-predicted_class = classes[np.argmax(prediction)]
-confidence = np.max(prediction) * 100
+### Futures améliorations
+- 🔄 Visualisation Grad-CAM
+- 📱 Version mobile native
+- 🌐 Déploiement TensorFlow.js
+- 📈 Apprentissage continu
 
-print(f"Prédiction: {predicted_class} ({confidence:.2f}%)")
-```
 
 ## 👥 Auteurs
 
@@ -75,8 +100,7 @@ print(f"Prédiction: {predicted_class} ({confidence:.2f}%)")
 
 - **Issues GitHub** : [Signaler un problème](https://github.com/Mamdou025/Edufruits_V3/issues)
 - **Email** : fallmamadou151@gmail.com
-- **Documentation** : [Wiki du projet](https://github.com/Mamdou025/Edufruits_V3/wiki)
 
 ---
 
-*Développé avec ❤️ pour l'éducation en intelligence artificielle*
+*Développé  pour l'éducation en intelligence artificielle*

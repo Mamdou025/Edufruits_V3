@@ -12,10 +12,11 @@ edufruit_env/
 # Data
 *.zip
 *.tar.gz
+data/processed/
 
 
 # Models (optional - comment out if you want to version models)
-# models/*.h5
+models/*.h5
 
 # Outputs
 outputs/
