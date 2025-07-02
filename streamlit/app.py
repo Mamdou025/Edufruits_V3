@@ -202,7 +202,7 @@ class EduFruitExplorer:
             latest_best_model_path = self.get_latest_best_model()
             
             if latest_best_model_path:
-                st.info(f"🏆 Modèle 'best' trouvé: {os.path.basename(latest_best_model_path)}")
+                st.info(f" Modèle 'best' trouvé: {os.path.basename(latest_best_model_path)}")
                 
                 # Vérifier la validité du fichier avant de le charger
                 try:
@@ -220,7 +220,7 @@ class EduFruitExplorer:
                 if latest_best_model_path:
                     self.model = self.load_model(latest_best_model_path)
                     if self.model:
-                        st.success(f"🏆 Modèle 'best' chargé automatiquement: {os.path.basename(latest_best_model_path)}")
+                        st.success(f" Modèle 'best' chargé automatiquement: {os.path.basename(latest_best_model_path)}")
                         return True
                     else:
                         st.error("❌ Échec du chargement du modèle 'best'")
@@ -664,7 +664,7 @@ def main():
             total_models_count = len(available_models)
             
             if best_models_count > 0:
-                st.success(f"🏆 {best_models_count} modèle(s) 'best' trouvé(s) ({total_models_count} total)")
+                st.success(f" {best_models_count} modèle(s) 'best' trouvé(s) ({total_models_count} total)")
             else:
                 st.info(f"📁 {total_models_count} modèle(s) trouvé(s) (aucun 'best')")
             
@@ -701,7 +701,45 @@ def main():
         show_formulas = st.checkbox("Afficher les formules mathématiques", value=False)
         
         st.markdown("---")
+
+        st.markdown("""
+              <div class="info-box">
+                    <h4> Types de modèles</h4>
+                       <ul>
+                           <li><strong> "best"</strong> - Meilleure performance sur validation</li>
+                           <li><strong> "final"</strong> - État final de l'entraînement</li>
+                        </ul>
+                 </div>
+            """, unsafe_allow_html=True)
+        with st.expander("ℹ️ Pourquoi deux modèles différents ?"):
+             st.markdown("""
+        **Modèle "best" (recommandé) :**
+        - Sauvegardé automatiquement quand la performance est maximale
+        - Peut provenir de l'époque 25, 30, ou n'importe quand durant l'entraînement
+        - **Meilleure généralisation** sur de nouvelles images
+        - Évite le surapprentissage tardif
         
+        **Modèle "final" :**
+        - Sauvegardé à la toute fin de l'entraînement (époque finale)
+        - Peut avoir des performances légèrement inférieures
+        - Utile pour l'analyse et la recherche
+        - Archive complète du processus d'entraînement
+        
+        **💡 Conseil :** Utilisez toujours le modèle "best" pour les prédictions réelles !
+        """)
+             
+        st.markdown("""
+        <div class="warning-box">
+            <h4> Détails Techniques</h4>
+            <ul>
+                <li><strong>Taille d'entrée:</strong> 100×100 pixels</li>
+                <li><strong>4 blocs convolutionnels</strong></li>
+                <li><strong>Filtres:</strong> 32→64→128→256</li>
+                <li><strong>Régularisation:</strong> Dropout, BatchNorm</li>
+                <li><strong>Classification:</strong> 5 classes de fruits</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)     
         # Informations éducatives (déplacées de la colonne droite)
         st.markdown("""
         <div class="info-box">
@@ -717,18 +755,7 @@ def main():
         </div>
         """, unsafe_allow_html=True)
         
-        st.markdown("""
-        <div class="warning-box">
-            <h4> Détails Techniques</h4>
-            <ul>
-                <li><strong>Taille d'entrée:</strong> 100×100 pixels</li>
-                <li><strong>4 blocs convolutionnels</strong></li>
-                <li><strong>Filtres:</strong> 32→64→128→256</li>
-                <li><strong>Régularisation:</strong> Dropout, BatchNorm</li>
-                <li><strong>Classification:</strong> 5 classes de fruits</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+
         
         # Conseils d'utilisation
         st.markdown("""
