@@ -793,7 +793,7 @@ def main():
 
         
         uploaded_file = st.file_uploader(
-            "Sélectionnez une image de fruit (JPG, PNG)",
+            "",
             type=['jpg', 'jpeg', 'png'],
             help="Choisissez une image claire d'un fruit sur fond neutre"
         )
@@ -914,7 +914,7 @@ Le réseau commence par analyser l'image avec **deux couches convolutionnelles s
         st.write("""
 Le deuxième bloc se concentre sur l'analyse des **textures et motifs complexes** avec 64 filtres pour capturer plus de nuances que le bloc précédent.
 
-**Architecture du Bloc 2 :**
+**Processus détaillé  du Bloc 2 :**
 - **1ère Conv2D(64, 3×3)** : Détecte les micro-textures de la peau des fruits
 - **BatchNormalization** : Stabilise l'apprentissage avec plus de filtres actifs
 - **2ème Conv2D(64, 3×3)** : Combine les textures en motifs plus sophistiqués
@@ -958,7 +958,7 @@ Le deuxième bloc se concentre sur l'analyse des **textures et motifs complexes*
         st.write("""
 Le troisième bloc se concentre sur la **reconnaissance de formes géométriques** avec 128 filtres pour une analyse encore plus fine des caractéristiques structurelles.
 
-**Architecture du Bloc 3 :**
+**Processus détaillé du Bloc 3 :**
 - **1ère Conv2D(128, 3×3)** : Identifie les formes globales et leurs contours
 - **BatchNormalization** : Maintient la stabilité avec 128 filtres simultanés
 - **2ème Conv2D(128, 3×3)** : Affine la détection des formes et capture leurs variations
@@ -1005,7 +1005,7 @@ Le troisième bloc se concentre sur la **reconnaissance de formes géométriques
         st.write("""
 Le bloc final est **hautement spécialisé** avec 256 filtres et une architecture unique sans pooling pour préserver les détails les plus fins.
 
-**Architecture du Bloc 4 :**
+**Processus détaillé du Bloc 4 :**
 - **Conv2D(256, 3×3)** : UNE SEULE convolution avec 256 filtres ultra-spécialisés
 - **BatchNormalization** : Stabilise les 256 activations simultanées
 - **Dropout(25%)** : Régularisation finale avant la classification
@@ -1109,7 +1109,7 @@ Le bloc final est **hautement spécialisé** avec 256 filtres et une architectur
         st.write("""
 La classification utilise **trois couches denses successives** pour transformer les 256 caractéristiques extraites en décision finale ultra-précise.
 
-**Architecture de classification :**
+**Processus détaillé de classification :**
 
 **1. Dense Layer 1 (256 → 512 neurones) :**
 - **Expansion :** Multiplie les possibilités de combinaisons par 2
