@@ -18,14 +18,12 @@ import pandas as pd
 import os
 import glob
 from pathlib import Path
-import sys          # ADD THIS LINE
-import platform     # ADD THIS LINE
 
 #importer des illustrations 
 import architecture_images
 
 
-
+# Debug the path detection
 
 
 # Smart path detection with debug
@@ -419,7 +417,6 @@ def main():
     
     # Sidebar enrichie
     with st.sidebar:
-                   
         st.markdown("###  Paramètres & Informations")
         
         # Chargement du modèle
