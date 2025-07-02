@@ -72,79 +72,42 @@ class EduFruitExplorer:
         return models_dir
     
     def get_latest_best_model(self):
-        """Trouver le dernier modèle contenant 'best' dans le nom avec validation"""
+        """Trouver le dernier modèle contenant 'best' dans le nom"""
         try:
-            if not self.models_dir.exists():
-                st.error(f"❌ Dossier models introuvable: {self.models_dir}")
-                return None
-            
             model_pattern = str(self.models_dir / "*.h5")
             model_files = glob.glob(model_pattern)
             
             if not model_files:
-                st.info("ℹ️ Aucun fichier .h5 trouvé")
                 return None
             
             # Filtrer seulement les modèles contenant "best" (insensible à la casse)
-            best_model_files = []
-            for f in model_files:
-                filename = os.path.basename(f).lower()
-                if "best" in filename:
-                    # Vérifier que le fichier n'est pas vide
-                    try:
-                        size = os.path.getsize(f)
-                        if size > 1000:  # Au moins 1KB pour être un modèle valide
-                            best_model_files.append(f)
-                        else:
-                            st.warning(f"⚠️ Fichier 'best' ignoré (trop petit): {os.path.basename(f)} ({size} bytes)")
-                    except OSError:
-                        st.warning(f"⚠️ Impossible de lire: {os.path.basename(f)}")
+            best_model_files = [f for f in model_files if "best" in os.path.basename(f).lower()]
             
             if not best_model_files:
-                st.info("ℹ️ Aucun modèle 'best' valide trouvé")
                 return None
                 
-            # Retourner le plus récent parmi les modèles "best" valides
+            # Retourner le plus récent parmi les modèles "best"
             latest_best_model = max(best_model_files, key=os.path.getmtime)
-            st.info(f"✅ Meilleur modèle 'best': {os.path.basename(latest_best_model)}")
             return latest_best_model
             
         except Exception as e:
-            st.error(f"❌ Erreur lors de la recherche des modèles 'best': {e}")
+            st.error(f"Erreur lors de la recherche des modèles 'best': {e}")
             return None
     
     def get_latest_model(self):
-        """Trouver le dernier modèle dans le dossier models (fallback) avec validation"""
+        """Trouver le dernier modèle dans le dossier models (fallback)"""
         try:
-            if not self.models_dir.exists():
-                return None
-                
             model_pattern = str(self.models_dir / "*.h5")
             model_files = glob.glob(model_pattern)
             
             if not model_files:
                 return None
-            
-            # Filtrer les fichiers valides (non vides)
-            valid_model_files = []
-            for f in model_files:
-                try:
-                    size = os.path.getsize(f)
-                    if size > 1000:  # Au moins 1KB
-                        valid_model_files.append(f)
-                    else:
-                        st.warning(f"⚠️ Fichier ignoré (trop petit): {os.path.basename(f)} ({size} bytes)")
-                except OSError:
-                    st.warning(f"⚠️ Impossible de lire: {os.path.basename(f)}")
-            
-            if not valid_model_files:
-                return None
                 
-            latest_model = max(valid_model_files, key=os.path.getmtime)
+            latest_model = max(model_files, key=os.path.getmtime)
             return latest_model
             
         except Exception as e:
-            st.error(f"❌ Erreur lors de la recherche des modèles: {e}")
+            st.error(f"Erreur lors de la recherche des modèles: {e}")
             return None
     
     def list_available_models(self):
@@ -174,192 +137,50 @@ class EduFruitExplorer:
             return []
     
     def auto_load_latest_best_model(self):
-        """Charger automatiquement le dernier modèle 'best' disponible avec débogage"""
+        """Charger automatiquement le dernier modèle 'best' disponible"""
         try:
-            st.info("🔍 Recherche de modèles dans le dossier...")
-            
-            # Debug: Lister tous les fichiers dans le dossier models
-            try:
-                if self.models_dir.exists():
-                    all_files = list(self.models_dir.glob("*"))
-                    st.info(f"📁 Dossier models contient {len(all_files)} fichier(s)")
-                    
-                    h5_files = list(self.models_dir.glob("*.h5"))
-                    st.info(f"🎯 Fichiers .h5 trouvés: {len(h5_files)}")
-                    
-                    if h5_files:
-                        for h5_file in h5_files:
-                            size = h5_file.stat().st_size
-                            st.info(f"   - {h5_file.name}: {size:,} bytes")
-                else:
-                    st.error(f"❌ Dossier models introuvable: {self.models_dir}")
-                    return False
-            except Exception as debug_e:
-                st.error(f"❌ Erreur lors de l'exploration du dossier: {debug_e}")
-                return False
-            
             # D'abord essayer de trouver un modèle "best"
             latest_best_model_path = self.get_latest_best_model()
             
             if latest_best_model_path:
-                st.info(f"🏆 Modèle 'best' trouvé: {os.path.basename(latest_best_model_path)}")
-                
-                # Vérifier la validité du fichier avant de le charger
-                try:
-                    file_size = os.path.getsize(latest_best_model_path)
-                    if file_size == 0:
-                        st.error(f"❌ Le fichier 'best' est vide: {latest_best_model_path}")
-                        raise Exception("Fichier vide")
-                    
-                    st.info(f"📊 Taille du fichier: {file_size:,} bytes")
-                    
-                except Exception as size_e:
-                    st.error(f"❌ Problème avec le fichier 'best': {size_e}")
-                    latest_best_model_path = None
-                
-                if latest_best_model_path:
-                    self.model = self.load_model(latest_best_model_path)
-                    if self.model:
-                        st.success(f"🏆 Modèle 'best' chargé automatiquement: {os.path.basename(latest_best_model_path)}")
-                        return True
-                    else:
-                        st.error("❌ Échec du chargement du modèle 'best'")
-            
-            # Fallback: essayer de charger n'importe quel modèle si aucun "best" n'est trouvé
-            st.warning("⚠️ Aucun modèle 'best' valide trouvé, tentative de chargement d'un autre modèle...")
-            latest_model_path = self.get_latest_model()
-            
-            if latest_model_path:
-                st.info(f"📁 Modèle alternatif trouvé: {os.path.basename(latest_model_path)}")
-                
-                # Vérifier la validité du fichier de fallback
-                try:
-                    file_size = os.path.getsize(latest_model_path)
-                    if file_size == 0:
-                        st.error(f"❌ Le fichier alternatif est vide: {latest_model_path}")
-                        return False
-                    
-                    st.info(f"📊 Taille du fichier alternatif: {file_size:,} bytes")
-                    
-                except Exception as size_e:
-                    st.error(f"❌ Problème avec le fichier alternatif: {size_e}")
-                    return False
-                
-                self.model = self.load_model(latest_model_path)
+                print(f"Chargement automatique du modèle 'best': {latest_best_model_path}")
+                self.model = self.load_model(latest_best_model_path)
                 if self.model:
-                    st.info(f"📁 Modèle alternatif chargé: {os.path.basename(latest_model_path)}")
+                    st.success(f" Modèle 'best' chargé automatiquement: {os.path.basename(latest_best_model_path)}")
                     return True
-                else:
-                    st.error("❌ Échec du chargement du modèle alternatif")
             else:
-                st.warning("⚠️ Aucun modèle (.h5) trouvé dans le dossier models/")
-                return False
+                # Fallback: essayer de charger n'importe quel modèle si aucun "best" n'est trouvé
+                st.warning("⚠️ Aucun modèle 'best' trouvé, tentative de chargement d'un autre modèle...")
+                latest_model_path = self.get_latest_model()
+                
+                if latest_model_path:
+                    print(f"Chargement de fallback: {latest_model_path}")
+                    self.model = self.load_model(latest_model_path)
+                    if self.model:
+                        st.info(f"📁 Modèle alternatif chargé: {os.path.basename(latest_model_path)}")
+                        return True
+                else:
+                    st.warning("⚠️ Aucun modèle trouvé dans le dossier models/")
+                    return False
                     
         except Exception as e:
-            st.error(f"❌ Erreur lors du chargement automatique:")
-            st.error(f"   Type: {type(e).__name__}")
-            st.error(f"   Message: {str(e)}")
+            st.error(f"❌ Erreur lors du chargement automatique: {e}")
             return False
         
     @st.cache_resource
     def load_model(_self, model_path):
-        """Charger le modèle entraîné avec gestion d'erreurs robuste"""
+        """Charger le modèle entraîné"""
         try:
-            # Vérifier que le fichier existe et n'est pas vide
-            if not os.path.exists(model_path):
-                st.error(f"❌ Fichier modèle introuvable: {model_path}")
-                return None
+            model = load_model(model_path)
             
-            file_size = os.path.getsize(model_path)
-            if file_size == 0:
-                st.error(f"❌ Fichier modèle vide: {model_path}")
-                return None
+            # CORRECTION: Forcer une prédiction factice pour initialiser le modèle
+            dummy_input = np.random.random((1, 100, 100, 3)).astype('float32')
+            _ = model.predict(dummy_input, verbose=0)
             
-            st.info(f"📁 Tentative de chargement: {os.path.basename(model_path)} ({file_size:,} bytes)")
-            
-            # Essayer de charger le modèle avec différentes approches
-            model = None
-            
-            # Méthode 1: Chargement standard
-            try:
-                model = load_model(model_path, compile=False)
-                st.info("✅ Modèle chargé avec load_model standard")
-            except Exception as e1:
-                st.warning(f"⚠️ Échec méthode 1: {str(e1)[:100]}...")
-                
-                # Méthode 2: Chargement sans compilation puis recompilation
-                try:
-                    model = load_model(model_path, compile=False)
-                    model.compile(
-                        optimizer='adam',
-                        loss='categorical_crossentropy',
-                        metrics=['accuracy']
-                    )
-                    st.info("✅ Modèle chargé sans compilation puis recompilé")
-                except Exception as e2:
-                    st.warning(f"⚠️ Échec méthode 2: {str(e2)[:100]}...")
-                    
-                    # Méthode 3: Chargement avec options custom
-                    try:
-                        model = tf.keras.models.load_model(
-                            model_path, 
-                            custom_objects=None,
-                            compile=False,
-                            safe_mode=True
-                        )
-                        st.info("✅ Modèle chargé avec safe_mode")
-                    except Exception as e3:
-                        st.error(f"❌ Toutes les méthodes ont échoué:")
-                        st.error(f"   - Méthode 1: {str(e1)[:80]}...")
-                        st.error(f"   - Méthode 2: {str(e2)[:80]}...")
-                        st.error(f"   - Méthode 3: {str(e3)[:80]}...")
-                        return None
-            
-            if model is None:
-                st.error("❌ Impossible de charger le modèle")
-                return None
-            
-            # Vérifier la structure du modèle
-            try:
-                model_info = {
-                    'input_shape': model.input_shape if hasattr(model, 'input_shape') else "Inconnu",
-                    'output_shape': model.output_shape if hasattr(model, 'output_shape') else "Inconnu",
-                    'layers': len(model.layers) if hasattr(model, 'layers') else "Inconnu"
-                }
-                st.info(f"📊 Structure: {model_info['layers']} couches, entrée: {model_info['input_shape']}")
-            except Exception as e:
-                st.warning(f"⚠️ Impossible de lire la structure: {e}")
-            
-            # Test de prédiction factice avec gestion d'erreurs
-            try:
-                dummy_input = np.random.random((1, 100, 100, 3)).astype('float32')
-                test_prediction = model.predict(dummy_input, verbose=0)
-                
-                if test_prediction is not None and len(test_prediction) > 0:
-                    st.success(f"🚀 Modèle opérationnel: {os.path.basename(model_path)}")
-                    return model
-                else:
-                    st.error("❌ La prédiction test a retourné un résultat invalide")
-                    return None
-                    
-            except Exception as e:
-                st.warning(f"⚠️ Erreur lors du test de prédiction: {e}")
-                st.info("🔄 Le modèle sera utilisé sans test de prédiction")
-                return model
-                
+            st.success(f"Modèle chargé avec succès: {os.path.basename(model_path)}")
+            return model
         except Exception as e:
-            st.error(f"❌ Erreur critique lors du chargement du modèle:")
-            st.error(f"   Type d'erreur: {type(e).__name__}")
-            st.error(f"   Message: {str(e)}")
-            st.error(f"   Fichier: {model_path}")
-            
-            # Informations de débogage supplémentaires
-            try:
-                st.error(f"   Taille du fichier: {os.path.getsize(model_path):,} bytes")
-                st.error(f"   Permissions de lecture: {os.access(model_path, os.R_OK)}")
-            except:
-                st.error("   Impossible d'obtenir les informations du fichier")
-            
+            st.error(f"Erreur lors du chargement du modèle: {e}")
             return None
     
     def preprocess_image(self, image):
@@ -664,9 +485,9 @@ def main():
             total_models_count = len(available_models)
             
             if best_models_count > 0:
-                st.success(f"🏆 {best_models_count} modèle(s) 'best' trouvé(s) ({total_models_count} total)")
+                st.success(f" {best_models_count} modèles 'best' trouvés {total_models_count} au total")
             else:
-                st.info(f"📁 {total_models_count} modèle(s) trouvé(s) (aucun 'best')")
+                st.info(f"📁 {total_models_count} modèles trouvés (aucun 'best')")
             
             selected_model = st.selectbox(
                 "Choisir un modèle différent:",
