@@ -26,9 +26,7 @@ import architecture_images
 
 
 
-def is_streamlit_cloud():
-    """Detect if running on Streamlit Cloud"""
-    return 'STREAMLIT_SERVER_PORT' in os.environ or 'STREAMLIT_CLOUD' in os.environ
+
 
 # Smart path detection with debug
 if os.path.exists("images"):
@@ -421,13 +419,7 @@ def main():
     
     # Sidebar enrichie
     with st.sidebar:
-
-       if is_streamlit_cloud():
-        st.write("**Deployed Environment Debug:**")
-        st.write(f"TensorFlow: {tf.__version__}")
-        st.write(f"Python: {sys.version}")
-        st.write(f"Platform: {platform.platform()}")
-        st.markdown("---")  # Separator                            
+                   
         st.markdown("###  Paramètres & Informations")
         
         # Chargement du modèle
