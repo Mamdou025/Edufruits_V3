@@ -71,8 +71,31 @@ class EduFruitExplorer:
      
         return models_dir
     
+    def get_latest_best_model(self):
+        """Trouver le dernier modèle contenant 'best' dans le nom"""
+        try:
+            model_pattern = str(self.models_dir / "*.h5")
+            model_files = glob.glob(model_pattern)
+            
+            if not model_files:
+                return None
+            
+            # Filtrer seulement les modèles contenant "best" (insensible à la casse)
+            best_model_files = [f for f in model_files if "best" in os.path.basename(f).lower()]
+            
+            if not best_model_files:
+                return None
+                
+            # Retourner le plus récent parmi les modèles "best"
+            latest_best_model = max(best_model_files, key=os.path.getmtime)
+            return latest_best_model
+            
+        except Exception as e:
+            st.error(f"Erreur lors de la recherche des modèles 'best': {e}")
+            return None
+    
     def get_latest_model(self):
-        """Trouver le dernier modèle dans le dossier models"""
+        """Trouver le dernier modèle dans le dossier models (fallback)"""
         try:
             model_pattern = str(self.models_dir / "*.h5")
             model_files = glob.glob(model_pattern)
@@ -88,34 +111,58 @@ class EduFruitExplorer:
             return None
     
     def list_available_models(self):
-        """Lister tous les modèles disponibles"""
+        """Lister tous les modèles disponibles, en priorisant les modèles 'best'"""
         try:
             model_pattern = str(self.models_dir / "*.h5")
             model_files = glob.glob(model_pattern)
             
             if not model_files:
                 return []
-                
-            model_files.sort(key=os.path.getmtime, reverse=True)
-            return [os.path.basename(f) for f in model_files]
+            
+            # Séparer les modèles "best" des autres
+            best_models = [f for f in model_files if "best" in os.path.basename(f).lower()]
+            other_models = [f for f in model_files if "best" not in os.path.basename(f).lower()]
+            
+            # Trier chaque groupe par date (plus récent en premier)
+            best_models.sort(key=os.path.getmtime, reverse=True)
+            other_models.sort(key=os.path.getmtime, reverse=True)
+            
+            # Combiner: modèles "best" en premier, puis les autres
+            all_models = best_models + other_models
+            
+            return [os.path.basename(f) for f in all_models]
             
         except Exception as e:
             st.error(f"Erreur lors de la liste des modèles: {e}")
             return []
     
-    def auto_load_latest_model(self):
-        """Charger automatiquement le dernier modèle disponible"""
+    def auto_load_latest_best_model(self):
+        """Charger automatiquement le dernier modèle 'best' disponible"""
         try:
-            latest_model_path = self.get_latest_model()
-            if latest_model_path:
-                print(f"Chargement automatique du modèle: {latest_model_path}")
-                self.model = self.load_model(latest_model_path)
+            # D'abord essayer de trouver un modèle "best"
+            latest_best_model_path = self.get_latest_best_model()
+            
+            if latest_best_model_path:
+                print(f"Chargement automatique du modèle 'best': {latest_best_model_path}")
+                self.model = self.load_model(latest_best_model_path)
                 if self.model:
-                    st.success(f"🚀 Modèle chargé automatiquement: {os.path.basename(latest_model_path)}")
+                    st.success(f" Modèle 'best' chargé automatiquement: {os.path.basename(latest_best_model_path)}")
                     return True
             else:
-                st.warning("⚠️ Aucun modèle trouvé dans le dossier models/")
-                return False
+                # Fallback: essayer de charger n'importe quel modèle si aucun "best" n'est trouvé
+                st.warning("⚠️ Aucun modèle 'best' trouvé, tentative de chargement d'un autre modèle...")
+                latest_model_path = self.get_latest_model()
+                
+                if latest_model_path:
+                    print(f"Chargement de fallback: {latest_model_path}")
+                    self.model = self.load_model(latest_model_path)
+                    if self.model:
+                        st.info(f"📁 Modèle alternatif chargé: {os.path.basename(latest_model_path)}")
+                        return True
+                else:
+                    st.warning("⚠️ Aucun modèle trouvé dans le dossier models/")
+                    return False
+                    
         except Exception as e:
             st.error(f"❌ Erreur lors du chargement automatique: {e}")
             return False
@@ -422,25 +469,30 @@ def main():
         # Chargement du modèle
         st.markdown("####  Modèle")
         
-        # Auto-chargement au premier démarrage
+        # Auto-chargement au premier démarrage - MODIFIÉ pour charger seulement les modèles "best"
         if 'model_auto_loaded' not in st.session_state:
             st.session_state.model_auto_loaded = True
-            with st.spinner(" Recherche et chargement du dernier modèle..."):
-                if explorer.auto_load_latest_model():
+            with st.spinner(" Recherche et chargement du dernier modèle 'best'..."):
+                if explorer.auto_load_latest_best_model():
                     st.session_state.model_loaded = True
                     st.rerun()
         
         available_models = explorer.list_available_models()
         
         if available_models:
-            st.success(f" {len(available_models)} modèle(s) trouvé(s)")
+            # Compter les modèles "best"
+            best_models_count = len([m for m in available_models if "best" in m.lower()])
+            total_models_count = len(available_models)
             
-
+            if best_models_count > 0:
+                st.success(f" {best_models_count} modèles 'best' trouvés {total_models_count} au total")
+            else:
+                st.info(f"📁 {total_models_count} modèles trouvés (aucun 'best')")
             
             selected_model = st.selectbox(
                 "Choisir un modèle différent:",
                 available_models,
-                help="Le premier modèle est le plus récent"
+                help="Les modèles 'best' sont affichés en premier, puis les autres par date"
             )
             
             model_path = str(explorer.models_dir / selected_model)
