@@ -697,8 +697,8 @@ def main():
             st.info("Prédictions simulées activées")
         
         # Options d'affichage
-        
         show_formulas = st.checkbox("Afficher les formules mathématiques", value=False)
+        show_detailed_process = st.checkbox("Afficher le processus détaillé", value=False)
         
         st.markdown("---")
 
@@ -755,8 +755,6 @@ def main():
         </div>
         """, unsafe_allow_html=True)
         
-
-        
         # Conseils d'utilisation
         st.markdown("""
         <div class="success-box">
@@ -789,8 +787,6 @@ def main():
     # Étape 1: Upload d'image
     with st.expander("**Étape 1 - Choisir une image de fruit**", expanded=True):
         st.write("Sélectionnez une image claire d'un fruit pour commencer l'analyse du réseau de neurones.")
-        
-
         
         uploaded_file = st.file_uploader(
             "",
@@ -854,49 +850,38 @@ def main():
     # Étape 2: Bloc Convolutionnel 1
     with st.expander("**Bloc 1 - Détection des contours de base (32 filtres)**", expanded=True):
         st.write("Le réseau commence par détecter les formes de base comme les bords et les contours du fruit. Cette première couche convolutionnelle détecte les caractéristiques simples : bords, lignes, contours. C'est comme si le réseau apprenait à \"voir\" les formes basiques de votre fruit.")
+        
+        st.write("Le réseau commence par analyser l'image avec **deux couches convolutionnelles successives** utilisant 32 filtres chacune.")
         st.write("""
-Le réseau commence par analyser l'image avec **deux couches convolutionnelles successives** utilisant 32 filtres chacune. 
-
+**Ce que détecte ce bloc :**
+- **Détection de contours** : Trouve où l'objet commence et finit
+- **Invariance spatiale** : Peut détecter un contour n'importe où dans l'image
+""")
+        if show_detailed_process:
+            st.write("""
 **Processus détaillé :**
 - **1ère Conv2D(32)** : Détecte les bords horizontaux, verticaux et diagonaux
 - **BatchNormalization** : Stabilise l'apprentissage et accélère la convergence  
 - **2ème Conv2D(32)** : Affine la détection des contours et combine les caractéristiques
 - **MaxPooling2D(2×2)** : Réduit la taille de 100×100 → ~48×48 tout en gardant l'essentiel
 - **Dropout(25%)** : Prévient le surapprentissage en désactivant aléatoirement des neurones
-
-**Résultat :** Le bloc transforme l'image RGB en 32 cartes de caractéristiques qui "voient" les contours du fruit.
 """)
+
         
+        st.write("**Résultat :** Le bloc transforme l'image RGB en 32 cartes de caractéristiques qui \"voient\" les contours du fruit.")
         
-
-
-
-
-
-               # === AJOUT DE L'ILLUSTRATION ===
+        # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
         st.image(f"{image_path}bloc1.png", caption="Description de votre image", width=900) 
         
-        st.markdown("""
-        <div class="info-box">
-            <h4> Fonctionnement interne</h4>
-            <ul>
-                <li><strong>Détection de contours</strong> : Trouve où l'objet commence et finit</li>
-                <li><strong>Filtres multiples</strong> : 32 détecteurs différents pour capturer diverses caractéristiques</li>
-                <li><strong>Invariance spatiale</strong> : Peut détecter un contour n'importe où dans l'image</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-        
 
+        
         # Visualisations des filtres
         if current_image:
             block1_results = explorer.apply_conv_filters(preprocessed_image, 1)
             create_filter_grid(block1_results, "Exemples de filtres du Bloc 1")
         else:
             st.info("Uploadez une image pour voir les transformations réelles")
-      
-        
       
     if show_formulas:
         st.markdown("""
@@ -911,16 +896,19 @@ Le réseau commence par analyser l'image avec **deux couches convolutionnelles s
     with st.expander("**Bloc 2 - Textures et Motifs (64 filtres)**", expanded=True):
         st.write("Le réseau détecte maintenant les textures de la peau du fruit et les motifs répétitifs.")
         
-        st.write("""
-Le deuxième bloc se concentre sur l'analyse des **textures et motifs complexes** avec 64 filtres pour capturer plus de nuances que le bloc précédent.
-
-**Processus détaillé  du Bloc 2 :**
+        st.write("Le deuxième bloc se concentre sur l'analyse des **textures et motifs complexes** avec 64 filtres pour capturer plus de nuances que le bloc précédent.")
+        
+        if show_detailed_process:
+            st.write("""
+**Architecture du Bloc 2 :**
 - **1ère Conv2D(64, 3×3)** : Détecte les micro-textures de la peau des fruits
 - **BatchNormalization** : Stabilise l'apprentissage avec plus de filtres actifs
 - **2ème Conv2D(64, 3×3)** : Combine les textures en motifs plus sophistiqués
 - **MaxPooling2D(2×2)** : Réduit la résolution de ~48×48 → ~22×22
 - **Dropout(25%)** : Évite la spécialisation excessive sur des textures spécifiques
-
+""")
+        
+        st.write("""
 **Ce que détecte ce bloc :**
 - **Peau lisse** d'une pomme vs **surface rugueuse** d'un avocat
 - **Motifs striés** d'une banane vs **texture granuleuse** d'une orange
@@ -929,20 +917,12 @@ Le deuxième bloc se concentre sur l'analyse des **textures et motifs complexes*
 
 **Transformation :** L'image passe de 32 → 64 cartes de caractéristiques, doublant la capacité d'analyse des textures tout en réduisant la taille spatiale pour se concentrer sur l'essentiel.
 """)
-                # === AJOUT DE L'ILLUSTRATION ===
+        
+        # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
         st.image(f"{image_path}bloc2.png", caption="Description de votre image", width=900) 
         
-        st.markdown("""
-        <div class="info-box">
-            <h4> Fonctionnement interne</h4>
-            <ul>
-                <li><strong>Analyse de texture</strong> : Distingue peau lisse (pomme) vs rugueuse (avocat)</li>
-                <li><strong>Motifs complexes</strong> : 64 filtres pour détecter des patterns plus sophistiqués</li>
-                <li><strong>Combinaison de caractéristiques</strong> : Combine les contours du bloc 1 avec les textures</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+
         
         # Visualisations des filtres
         if current_image:
@@ -955,16 +935,19 @@ Le deuxième bloc se concentre sur l'analyse des **textures et motifs complexes*
     with st.expander("**Bloc 3 - Formes Complexes (128 filtres)**", expanded=True):
         st.write("Reconnaissance de formes plus complexes et spécifiques à chaque type de fruit.")
         
-        st.write("""
-Le troisième bloc se concentre sur la **reconnaissance de formes géométriques** avec 128 filtres pour une analyse encore plus fine des caractéristiques structurelles.
-
-**Processus détaillé du Bloc 3 :**
+        st.write("Le troisième bloc se concentre sur la **reconnaissance de formes géométriques** avec 128 filtres pour une analyse encore plus fine des caractéristiques structurelles.")
+        
+        if show_detailed_process:
+            st.write("""
+**Architecture du Bloc 3 :**
 - **1ère Conv2D(128, 3×3)** : Identifie les formes globales et leurs contours
 - **BatchNormalization** : Maintient la stabilité avec 128 filtres simultanés
 - **2ème Conv2D(128, 3×3)** : Affine la détection des formes et capture leurs variations
 - **MaxPooling2D(2×2)** : Compresse de ~22×22 → ~9×9 en préservant la géométrie
 - **Dropout(25%)** : Prévient la mémorisation de formes spécifiques
-
+""")
+        
+        st.write("""
 **Ce que détecte ce bloc :**
 - **Forme ronde** d'une pomme vs **forme allongée** d'une banane
 - **Silhouette ovale** d'un avocat vs **forme sphérique** d'une orange
@@ -975,21 +958,12 @@ Le troisième bloc se concentre sur la **reconnaissance de formes géométriques
 
 **Transformation :** L'image évolue de 64 → 128 cartes de caractéristiques, doublant la capacité d'analyse des formes tout en se concentrant sur les aspects géométriques essentiels.
 """)
-                # === AJOUT DE L'ILLUSTRATION ===
+        
+        # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
         st.image(f"{image_path}bloc3.png", caption="Description de votre image", width=900) 
         
-        
-        st.markdown("""
-        <div class="info-box">
-            <h4> Fonctionnement interne</h4>
-            <ul>
-                <li><strong>Formes géométriques</strong> : Distingue rond (pomme) vs allongé (banane)</li>
-                <li><strong>Caractéristiques spécifiques</strong> : 128 filtres pour capturer des détails uniques</li>
-                <li><strong>Abstraction croissante</strong> : Passe des pixels aux concepts de forme</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+
         
         # Visualisations des filtres
         if current_image:
@@ -1002,15 +976,18 @@ Le troisième bloc se concentre sur la **reconnaissance de formes géométriques
     with st.expander("**Bloc 4 - Caractéristiques Spécialisées (256 filtres)**", expanded=True):
         st.write("Détection des caractéristiques très spécifiques qui permettent de distinguer chaque fruit.")
         
-        st.write("""
-Le bloc final est **hautement spécialisé** avec 256 filtres et une architecture unique sans pooling pour préserver les détails les plus fins.
-
-**Processus détaillé du Bloc 4 :**
+        st.write("Le bloc final est **hautement spécialisé** avec 256 filtres et une architecture unique sans pooling pour préserver les détails les plus fins.")
+        
+        if show_detailed_process:
+            st.write("""
+**Architecture du Bloc 4 :**
 - **Conv2D(256, 3×3)** : UNE SEULE convolution avec 256 filtres ultra-spécialisés
 - **BatchNormalization** : Stabilise les 256 activations simultanées
 - **Dropout(25%)** : Régularisation finale avant la classification
 - **AUCUN MaxPooling** : Préserve la résolution spatiale (~9×9 → ~7×7) pour les détails critiques
-
+""")
+        
+        st.write("""
 **Ce que détecte ce bloc :**
 - **Rouge intense** d'une pomme vs **rouge-orangé** d'une pêche
 - **Vert foncé** d'un avocat mûr vs **vert clair** d'un avocat jeune
@@ -1023,20 +1000,12 @@ Le bloc final est **hautement spécialisé** avec 256 filtres et une architectur
 
 **Transformation :** Passage de 128 → 256 cartes ultra-spécialisées qui capturent les signatures colorimétriques uniques, permettant une discrimination fine entre fruits similaires.
 """)
-                # === AJOUT DE L'ILLUSTRATION ===
+        
+        # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
         st.image(f"{image_path}bloc4.png", caption="Description de votre image", width=900) 
         
-        st.markdown("""
-        <div class="info-box">
-            <h4> Fonctionnement interne</h4>
-            <ul>
-                <li><strong>Analyse couleur avancée</strong> : Sépare rouge-pomme, vert-avocat, jaune-banane</li>
-                <li><strong>Spécialisation maximum</strong> : 256 filtres ultra-spécialisés par type de fruit</li>
-                <li><strong>Représentation finale</strong> : Combine forme, texture, couleur en signature unique</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+
         
         # Visualisations des filtres
         if current_image:
@@ -1060,22 +1029,12 @@ Le bloc final est **hautement spécialisé** avec 256 filtres et une architectur
 
 **Résultat :** 256 nombres qui résument TOUTE l'information visuelle nécessaire pour identifier le fruit.
 """)
-                        # === AJOUT DE L'ILLUSTRATION ===
+        
+        # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
         st.image(f"{image_path}moyenne.png", caption="Description de votre image", width=900) 
         
 
-
-        st.markdown("""
-        <div class="info-box">
-            <h4> Fonctionnement interne</h4>
-            <ul>
-                <li><strong>Compression intelligente</strong> : Résume 12×12×256 = 36,864 valeurs en 256</li>
-                <li><strong>Invariance à la position</strong> : Peu importe où est le fruit dans l'image</li>
-                <li><strong>Préparation classification</strong> : Convertit les cartes 2D en vecteur 1D</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
         
         # Simulation des valeurs GAP
         if current_image:
@@ -1106,10 +1065,11 @@ Le bloc final est **hautement spécialisé** avec 256 filtres et une architectur
     with st.expander("**Étape 7 - Classification Finale**", expanded=True):
         st.write("Le réseau transforme les 256 valeurs en probabilités pour chaque type de fruit.")
         
-        st.write("""
-La classification utilise **trois couches denses successives** pour transformer les 256 caractéristiques extraites en décision finale ultra-précise.
-
-**Processus détaillé de classification :**
+        st.write("La classification utilise **trois couches denses successives** pour transformer les 256 caractéristiques extraites en décision finale ultra-précise.")
+        
+        if show_detailed_process:
+            st.write("""
+**Architecture de classification :**
 
 **1. Dense Layer 1 (256 → 512 neurones) :**
 - **Expansion :** Multiplie les possibilités de combinaisons par 2
@@ -1122,7 +1082,9 @@ La classification utilise **trois couches denses successives** pour transformer 
 **3. Dense Layer 3 (256 → 5 classes) :**
 - **Décision finale :** Transforme en probabilités via Softmax
 - **Sortie :** 5 probabilités qui somment à 100%
-
+""")
+        
+        st.write("""
 **Ce que traite cette étape :**
 - **Combinaisons complexes** : "Rouge + rond + lisse" = forte probabilité de pomme
 - **Associations multi-caractéristiques** : "Jaune + allongé + strié" = signature banane
@@ -1135,20 +1097,12 @@ La classification utilise **trois couches denses successives** pour transformer 
 
 **Transformation :** Les 256 caractéristiques abstraites deviennent 5 probabilités concrètes permettant l'identification précise du fruit.
 """)
-                                # === AJOUT DE L'ILLUSTRATION ===
+        
+        # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
         st.image(f"{image_path}finale.png", caption="Description de votre image", width=900) 
         
-        st.markdown("""
-        <div class="info-box">
-            <h4> Fonctionnement interne</h4>
-            <ul>
-                <li><strong>Décision finale</strong> : Convertit les caractéristiques en probabilités</li>
-                <li><strong>Fonction Softmax</strong> : Assure que toutes les probabilités somment à 100%</li>
-                <li><strong>Confiance mesurable</strong> : Plus la probabilité est élevée, plus le modèle est sûr</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+
         
         # Prédictions avec nouveau layout
         if current_image:

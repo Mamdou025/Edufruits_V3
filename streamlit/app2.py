@@ -72,42 +72,79 @@ class EduFruitExplorer:
         return models_dir
     
     def get_latest_best_model(self):
-        """Trouver le dernier modèle contenant 'best' dans le nom"""
+        """Trouver le dernier modèle contenant 'best' dans le nom avec validation"""
         try:
+            if not self.models_dir.exists():
+                st.error(f"❌ Dossier models introuvable: {self.models_dir}")
+                return None
+            
             model_pattern = str(self.models_dir / "*.h5")
             model_files = glob.glob(model_pattern)
             
             if not model_files:
+                st.info("ℹ️ Aucun fichier .h5 trouvé")
                 return None
             
             # Filtrer seulement les modèles contenant "best" (insensible à la casse)
-            best_model_files = [f for f in model_files if "best" in os.path.basename(f).lower()]
+            best_model_files = []
+            for f in model_files:
+                filename = os.path.basename(f).lower()
+                if "best" in filename:
+                    # Vérifier que le fichier n'est pas vide
+                    try:
+                        size = os.path.getsize(f)
+                        if size > 1000:  # Au moins 1KB pour être un modèle valide
+                            best_model_files.append(f)
+                        else:
+                            st.warning(f"⚠️ Fichier 'best' ignoré (trop petit): {os.path.basename(f)} ({size} bytes)")
+                    except OSError:
+                        st.warning(f"⚠️ Impossible de lire: {os.path.basename(f)}")
             
             if not best_model_files:
+                st.info("ℹ️ Aucun modèle 'best' valide trouvé")
                 return None
                 
-            # Retourner le plus récent parmi les modèles "best"
+            # Retourner le plus récent parmi les modèles "best" valides
             latest_best_model = max(best_model_files, key=os.path.getmtime)
+            st.info(f"✅ Meilleur modèle 'best': {os.path.basename(latest_best_model)}")
             return latest_best_model
             
         except Exception as e:
-            st.error(f"Erreur lors de la recherche des modèles 'best': {e}")
+            st.error(f"❌ Erreur lors de la recherche des modèles 'best': {e}")
             return None
     
     def get_latest_model(self):
-        """Trouver le dernier modèle dans le dossier models (fallback)"""
+        """Trouver le dernier modèle dans le dossier models (fallback) avec validation"""
         try:
+            if not self.models_dir.exists():
+                return None
+                
             model_pattern = str(self.models_dir / "*.h5")
             model_files = glob.glob(model_pattern)
             
             if not model_files:
                 return None
+            
+            # Filtrer les fichiers valides (non vides)
+            valid_model_files = []
+            for f in model_files:
+                try:
+                    size = os.path.getsize(f)
+                    if size > 1000:  # Au moins 1KB
+                        valid_model_files.append(f)
+                    else:
+                        st.warning(f"⚠️ Fichier ignoré (trop petit): {os.path.basename(f)} ({size} bytes)")
+                except OSError:
+                    st.warning(f"⚠️ Impossible de lire: {os.path.basename(f)}")
+            
+            if not valid_model_files:
+                return None
                 
-            latest_model = max(model_files, key=os.path.getmtime)
+            latest_model = max(valid_model_files, key=os.path.getmtime)
             return latest_model
             
         except Exception as e:
-            st.error(f"Erreur lors de la recherche des modèles: {e}")
+            st.error(f"❌ Erreur lors de la recherche des modèles: {e}")
             return None
     
     def list_available_models(self):
@@ -137,50 +174,192 @@ class EduFruitExplorer:
             return []
     
     def auto_load_latest_best_model(self):
-        """Charger automatiquement le dernier modèle 'best' disponible"""
+        """Charger automatiquement le dernier modèle 'best' disponible avec débogage"""
         try:
+            st.info("🔍 Recherche de modèles dans le dossier...")
+            
+            # Debug: Lister tous les fichiers dans le dossier models
+            try:
+                if self.models_dir.exists():
+                    all_files = list(self.models_dir.glob("*"))
+                    st.info(f"📁 Dossier models contient {len(all_files)} fichier(s)")
+                    
+                    h5_files = list(self.models_dir.glob("*.h5"))
+                    st.info(f"🎯 Fichiers .h5 trouvés: {len(h5_files)}")
+                    
+                    if h5_files:
+                        for h5_file in h5_files:
+                            size = h5_file.stat().st_size
+                            st.info(f"   - {h5_file.name}: {size:,} bytes")
+                else:
+                    st.error(f"❌ Dossier models introuvable: {self.models_dir}")
+                    return False
+            except Exception as debug_e:
+                st.error(f"❌ Erreur lors de l'exploration du dossier: {debug_e}")
+                return False
+            
             # D'abord essayer de trouver un modèle "best"
             latest_best_model_path = self.get_latest_best_model()
             
             if latest_best_model_path:
-                print(f"Chargement automatique du modèle 'best': {latest_best_model_path}")
-                self.model = self.load_model(latest_best_model_path)
-                if self.model:
-                    st.success(f" Modèle 'best' chargé automatiquement: {os.path.basename(latest_best_model_path)}")
-                    return True
-            else:
-                # Fallback: essayer de charger n'importe quel modèle si aucun "best" n'est trouvé
-                st.warning("⚠️ Aucun modèle 'best' trouvé, tentative de chargement d'un autre modèle...")
-                latest_model_path = self.get_latest_model()
+                st.info(f" Modèle 'best' trouvé: {os.path.basename(latest_best_model_path)}")
                 
-                if latest_model_path:
-                    print(f"Chargement de fallback: {latest_model_path}")
-                    self.model = self.load_model(latest_model_path)
+                # Vérifier la validité du fichier avant de le charger
+                try:
+                    file_size = os.path.getsize(latest_best_model_path)
+                    if file_size == 0:
+                        st.error(f"❌ Le fichier 'best' est vide: {latest_best_model_path}")
+                        raise Exception("Fichier vide")
+                    
+                    st.info(f"📊 Taille du fichier: {file_size:,} bytes")
+                    
+                except Exception as size_e:
+                    st.error(f"❌ Problème avec le fichier 'best': {size_e}")
+                    latest_best_model_path = None
+                
+                if latest_best_model_path:
+                    self.model = self.load_model(latest_best_model_path)
                     if self.model:
-                        st.info(f"📁 Modèle alternatif chargé: {os.path.basename(latest_model_path)}")
+                        st.success(f" Modèle 'best' chargé automatiquement: {os.path.basename(latest_best_model_path)}")
                         return True
-                else:
-                    st.warning("⚠️ Aucun modèle trouvé dans le dossier models/")
+                    else:
+                        st.error("❌ Échec du chargement du modèle 'best'")
+            
+            # Fallback: essayer de charger n'importe quel modèle si aucun "best" n'est trouvé
+            st.warning("⚠️ Aucun modèle 'best' valide trouvé, tentative de chargement d'un autre modèle...")
+            latest_model_path = self.get_latest_model()
+            
+            if latest_model_path:
+                st.info(f"📁 Modèle alternatif trouvé: {os.path.basename(latest_model_path)}")
+                
+                # Vérifier la validité du fichier de fallback
+                try:
+                    file_size = os.path.getsize(latest_model_path)
+                    if file_size == 0:
+                        st.error(f"❌ Le fichier alternatif est vide: {latest_model_path}")
+                        return False
+                    
+                    st.info(f"📊 Taille du fichier alternatif: {file_size:,} bytes")
+                    
+                except Exception as size_e:
+                    st.error(f"❌ Problème avec le fichier alternatif: {size_e}")
                     return False
+                
+                self.model = self.load_model(latest_model_path)
+                if self.model:
+                    st.info(f"📁 Modèle alternatif chargé: {os.path.basename(latest_model_path)}")
+                    return True
+                else:
+                    st.error("❌ Échec du chargement du modèle alternatif")
+            else:
+                st.warning("⚠️ Aucun modèle (.h5) trouvé dans le dossier models/")
+                return False
                     
         except Exception as e:
-            st.error(f"❌ Erreur lors du chargement automatique: {e}")
+            st.error(f"❌ Erreur lors du chargement automatique:")
+            st.error(f"   Type: {type(e).__name__}")
+            st.error(f"   Message: {str(e)}")
             return False
         
     @st.cache_resource
     def load_model(_self, model_path):
-        """Charger le modèle entraîné"""
+        """Charger le modèle entraîné avec gestion d'erreurs robuste"""
         try:
-            model = load_model(model_path)
+            # Vérifier que le fichier existe et n'est pas vide
+            if not os.path.exists(model_path):
+                st.error(f"❌ Fichier modèle introuvable: {model_path}")
+                return None
             
-            # CORRECTION: Forcer une prédiction factice pour initialiser le modèle
-            dummy_input = np.random.random((1, 100, 100, 3)).astype('float32')
-            _ = model.predict(dummy_input, verbose=0)
+            file_size = os.path.getsize(model_path)
+            if file_size == 0:
+                st.error(f"❌ Fichier modèle vide: {model_path}")
+                return None
             
-            st.success(f"Modèle chargé avec succès: {os.path.basename(model_path)}")
-            return model
+            st.info(f"📁 Tentative de chargement: {os.path.basename(model_path)} ({file_size:,} bytes)")
+            
+            # Essayer de charger le modèle avec différentes approches
+            model = None
+            
+            # Méthode 1: Chargement standard
+            try:
+                model = load_model(model_path, compile=False)
+                st.info("✅ Modèle chargé avec load_model standard")
+            except Exception as e1:
+                st.warning(f"⚠️ Échec méthode 1: {str(e1)[:100]}...")
+                
+                # Méthode 2: Chargement sans compilation puis recompilation
+                try:
+                    model = load_model(model_path, compile=False)
+                    model.compile(
+                        optimizer='adam',
+                        loss='categorical_crossentropy',
+                        metrics=['accuracy']
+                    )
+                    st.info("✅ Modèle chargé sans compilation puis recompilé")
+                except Exception as e2:
+                    st.warning(f"⚠️ Échec méthode 2: {str(e2)[:100]}...")
+                    
+                    # Méthode 3: Chargement avec options custom
+                    try:
+                        model = tf.keras.models.load_model(
+                            model_path, 
+                            custom_objects=None,
+                            compile=False,
+                            safe_mode=True
+                        )
+                        st.info("✅ Modèle chargé avec safe_mode")
+                    except Exception as e3:
+                        st.error(f"❌ Toutes les méthodes ont échoué:")
+                        st.error(f"   - Méthode 1: {str(e1)[:80]}...")
+                        st.error(f"   - Méthode 2: {str(e2)[:80]}...")
+                        st.error(f"   - Méthode 3: {str(e3)[:80]}...")
+                        return None
+            
+            if model is None:
+                st.error("❌ Impossible de charger le modèle")
+                return None
+            
+            # Vérifier la structure du modèle
+            try:
+                model_info = {
+                    'input_shape': model.input_shape if hasattr(model, 'input_shape') else "Inconnu",
+                    'output_shape': model.output_shape if hasattr(model, 'output_shape') else "Inconnu",
+                    'layers': len(model.layers) if hasattr(model, 'layers') else "Inconnu"
+                }
+                st.info(f"📊 Structure: {model_info['layers']} couches, entrée: {model_info['input_shape']}")
+            except Exception as e:
+                st.warning(f"⚠️ Impossible de lire la structure: {e}")
+            
+            # Test de prédiction factice avec gestion d'erreurs
+            try:
+                dummy_input = np.random.random((1, 100, 100, 3)).astype('float32')
+                test_prediction = model.predict(dummy_input, verbose=0)
+                
+                if test_prediction is not None and len(test_prediction) > 0:
+                    st.success(f"🚀 Modèle opérationnel: {os.path.basename(model_path)}")
+                    return model
+                else:
+                    st.error("❌ La prédiction test a retourné un résultat invalide")
+                    return None
+                    
+            except Exception as e:
+                st.warning(f"⚠️ Erreur lors du test de prédiction: {e}")
+                st.info("🔄 Le modèle sera utilisé sans test de prédiction")
+                return model
+                
         except Exception as e:
-            st.error(f"Erreur lors du chargement du modèle: {e}")
+            st.error(f"❌ Erreur critique lors du chargement du modèle:")
+            st.error(f"   Type d'erreur: {type(e).__name__}")
+            st.error(f"   Message: {str(e)}")
+            st.error(f"   Fichier: {model_path}")
+            
+            # Informations de débogage supplémentaires
+            try:
+                st.error(f"   Taille du fichier: {os.path.getsize(model_path):,} bytes")
+                st.error(f"   Permissions de lecture: {os.access(model_path, os.R_OK)}")
+            except:
+                st.error("   Impossible d'obtenir les informations du fichier")
+            
             return None
     
     def preprocess_image(self, image):
@@ -485,9 +664,9 @@ def main():
             total_models_count = len(available_models)
             
             if best_models_count > 0:
-                st.success(f" {best_models_count} modèles 'best' trouvés {total_models_count} au total")
+                st.success(f" {best_models_count} modèle(s) 'best' trouvé(s) ({total_models_count} total)")
             else:
-                st.info(f"📁 {total_models_count} modèles trouvés (aucun 'best')")
+                st.info(f"📁 {total_models_count} modèle(s) trouvé(s) (aucun 'best')")
             
             selected_model = st.selectbox(
                 "Choisir un modèle différent:",
@@ -518,11 +697,49 @@ def main():
             st.info("Prédictions simulées activées")
         
         # Options d'affichage
-        
         show_formulas = st.checkbox("Afficher les formules mathématiques", value=False)
+        show_detailed_process = st.checkbox("Afficher le processus détaillé", value=False)
         
         st.markdown("---")
+
+        st.markdown("""
+              <div class="info-box">
+                    <h4> Types de modèles</h4>
+                       <ul>
+                           <li><strong> "best"</strong> - Meilleure performance sur validation</li>
+                           <li><strong> "final"</strong> - État final de l'entraînement</li>
+                        </ul>
+                 </div>
+            """, unsafe_allow_html=True)
+        with st.expander("ℹ️ Pourquoi deux modèles différents ?"):
+             st.markdown("""
+        **Modèle "best" (recommandé) :**
+        - Sauvegardé automatiquement quand la performance est maximale
+        - Peut provenir de l'époque 25, 30, ou n'importe quand durant l'entraînement
+        - **Meilleure généralisation** sur de nouvelles images
+        - Évite le surapprentissage tardif
         
+        **Modèle "final" :**
+        - Sauvegardé à la toute fin de l'entraînement (époque finale)
+        - Peut avoir des performances légèrement inférieures
+        - Utile pour l'analyse et la recherche
+        - Archive complète du processus d'entraînement
+        
+        **💡 Conseil :** Utilisez toujours le modèle "best" pour les prédictions réelles !
+        """)
+             
+        st.markdown("""
+        <div class="warning-box">
+            <h4> Détails Techniques</h4>
+            <ul>
+                <li><strong>Taille d'entrée:</strong> 100×100 pixels</li>
+                <li><strong>4 blocs convolutionnels</strong></li>
+                <li><strong>Filtres:</strong> 32→64→128→256</li>
+                <li><strong>Régularisation:</strong> Dropout, BatchNorm</li>
+                <li><strong>Classification:</strong> 5 classes de fruits</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)     
         # Informations éducatives (déplacées de la colonne droite)
         st.markdown("""
         <div class="info-box">
@@ -535,19 +752,6 @@ def main():
                 <li><strong>Couleurs</strong> - Rouge, jaune, vert</li>
                 <li><strong>Classification</strong> - Décision finale</li>
             </ol>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.markdown("""
-        <div class="warning-box">
-            <h4> Détails Techniques</h4>
-            <ul>
-                <li><strong>Taille d'entrée:</strong> 100×100 pixels</li>
-                <li><strong>4 blocs convolutionnels</strong></li>
-                <li><strong>Filtres:</strong> 32→64→128→256</li>
-                <li><strong>Régularisation:</strong> Dropout, BatchNorm</li>
-                <li><strong>Classification:</strong> 5 classes de fruits</li>
-            </ul>
         </div>
         """, unsafe_allow_html=True)
         
@@ -584,10 +788,8 @@ def main():
     with st.expander("**Étape 1 - Choisir une image de fruit**", expanded=True):
         st.write("Sélectionnez une image claire d'un fruit pour commencer l'analyse du réseau de neurones.")
         
-
-        
         uploaded_file = st.file_uploader(
-            "Sélectionnez une image de fruit (JPG, PNG)",
+            "",
             type=['jpg', 'jpeg', 'png'],
             help="Choisissez une image claire d'un fruit sur fond neutre"
         )
@@ -648,49 +850,38 @@ def main():
     # Étape 2: Bloc Convolutionnel 1
     with st.expander("**Bloc 1 - Détection des contours de base (32 filtres)**", expanded=True):
         st.write("Le réseau commence par détecter les formes de base comme les bords et les contours du fruit. Cette première couche convolutionnelle détecte les caractéristiques simples : bords, lignes, contours. C'est comme si le réseau apprenait à \"voir\" les formes basiques de votre fruit.")
+        
+        st.write("Le réseau commence par analyser l'image avec **deux couches convolutionnelles successives** utilisant 32 filtres chacune.")
         st.write("""
-Le réseau commence par analyser l'image avec **deux couches convolutionnelles successives** utilisant 32 filtres chacune. 
-
+**Ce que détecte ce bloc :**
+- **Détection de contours** : Trouve où l'objet commence et finit
+- **Invariance spatiale** : Peut détecter un contour n'importe où dans l'image
+""")
+        if show_detailed_process:
+            st.write("""
 **Processus détaillé :**
 - **1ère Conv2D(32)** : Détecte les bords horizontaux, verticaux et diagonaux
 - **BatchNormalization** : Stabilise l'apprentissage et accélère la convergence  
 - **2ème Conv2D(32)** : Affine la détection des contours et combine les caractéristiques
 - **MaxPooling2D(2×2)** : Réduit la taille de 100×100 → ~48×48 tout en gardant l'essentiel
 - **Dropout(25%)** : Prévient le surapprentissage en désactivant aléatoirement des neurones
-
-**Résultat :** Le bloc transforme l'image RGB en 32 cartes de caractéristiques qui "voient" les contours du fruit.
 """)
+
         
+        st.write("**Résultat :** Le bloc transforme l'image RGB en 32 cartes de caractéristiques qui \"voient\" les contours du fruit.")
         
-
-
-
-
-
-               # === AJOUT DE L'ILLUSTRATION ===
+        # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
         st.image(f"{image_path}bloc1.png", caption="Description de votre image", width=900) 
         
-        st.markdown("""
-        <div class="info-box">
-            <h4> Fonctionnement interne</h4>
-            <ul>
-                <li><strong>Détection de contours</strong> : Trouve où l'objet commence et finit</li>
-                <li><strong>Filtres multiples</strong> : 32 détecteurs différents pour capturer diverses caractéristiques</li>
-                <li><strong>Invariance spatiale</strong> : Peut détecter un contour n'importe où dans l'image</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-        
 
+        
         # Visualisations des filtres
         if current_image:
             block1_results = explorer.apply_conv_filters(preprocessed_image, 1)
             create_filter_grid(block1_results, "Exemples de filtres du Bloc 1")
         else:
             st.info("Uploadez une image pour voir les transformations réelles")
-      
-        
       
     if show_formulas:
         st.markdown("""
@@ -705,16 +896,19 @@ Le réseau commence par analyser l'image avec **deux couches convolutionnelles s
     with st.expander("**Bloc 2 - Textures et Motifs (64 filtres)**", expanded=True):
         st.write("Le réseau détecte maintenant les textures de la peau du fruit et les motifs répétitifs.")
         
-        st.write("""
-Le deuxième bloc se concentre sur l'analyse des **textures et motifs complexes** avec 64 filtres pour capturer plus de nuances que le bloc précédent.
-
+        st.write("Le deuxième bloc se concentre sur l'analyse des **textures et motifs complexes** avec 64 filtres pour capturer plus de nuances que le bloc précédent.")
+        
+        if show_detailed_process:
+            st.write("""
 **Architecture du Bloc 2 :**
 - **1ère Conv2D(64, 3×3)** : Détecte les micro-textures de la peau des fruits
 - **BatchNormalization** : Stabilise l'apprentissage avec plus de filtres actifs
 - **2ème Conv2D(64, 3×3)** : Combine les textures en motifs plus sophistiqués
 - **MaxPooling2D(2×2)** : Réduit la résolution de ~48×48 → ~22×22
 - **Dropout(25%)** : Évite la spécialisation excessive sur des textures spécifiques
-
+""")
+        
+        st.write("""
 **Ce que détecte ce bloc :**
 - **Peau lisse** d'une pomme vs **surface rugueuse** d'un avocat
 - **Motifs striés** d'une banane vs **texture granuleuse** d'une orange
@@ -723,20 +917,12 @@ Le deuxième bloc se concentre sur l'analyse des **textures et motifs complexes*
 
 **Transformation :** L'image passe de 32 → 64 cartes de caractéristiques, doublant la capacité d'analyse des textures tout en réduisant la taille spatiale pour se concentrer sur l'essentiel.
 """)
-                # === AJOUT DE L'ILLUSTRATION ===
+        
+        # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
         st.image(f"{image_path}bloc2.png", caption="Description de votre image", width=900) 
         
-        st.markdown("""
-        <div class="info-box">
-            <h4> Fonctionnement interne</h4>
-            <ul>
-                <li><strong>Analyse de texture</strong> : Distingue peau lisse (pomme) vs rugueuse (avocat)</li>
-                <li><strong>Motifs complexes</strong> : 64 filtres pour détecter des patterns plus sophistiqués</li>
-                <li><strong>Combinaison de caractéristiques</strong> : Combine les contours du bloc 1 avec les textures</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+
         
         # Visualisations des filtres
         if current_image:
@@ -749,16 +935,19 @@ Le deuxième bloc se concentre sur l'analyse des **textures et motifs complexes*
     with st.expander("**Bloc 3 - Formes Complexes (128 filtres)**", expanded=True):
         st.write("Reconnaissance de formes plus complexes et spécifiques à chaque type de fruit.")
         
-        st.write("""
-Le troisième bloc se concentre sur la **reconnaissance de formes géométriques** avec 128 filtres pour une analyse encore plus fine des caractéristiques structurelles.
-
+        st.write("Le troisième bloc se concentre sur la **reconnaissance de formes géométriques** avec 128 filtres pour une analyse encore plus fine des caractéristiques structurelles.")
+        
+        if show_detailed_process:
+            st.write("""
 **Architecture du Bloc 3 :**
 - **1ère Conv2D(128, 3×3)** : Identifie les formes globales et leurs contours
 - **BatchNormalization** : Maintient la stabilité avec 128 filtres simultanés
 - **2ème Conv2D(128, 3×3)** : Affine la détection des formes et capture leurs variations
 - **MaxPooling2D(2×2)** : Compresse de ~22×22 → ~9×9 en préservant la géométrie
 - **Dropout(25%)** : Prévient la mémorisation de formes spécifiques
-
+""")
+        
+        st.write("""
 **Ce que détecte ce bloc :**
 - **Forme ronde** d'une pomme vs **forme allongée** d'une banane
 - **Silhouette ovale** d'un avocat vs **forme sphérique** d'une orange
@@ -769,21 +958,12 @@ Le troisième bloc se concentre sur la **reconnaissance de formes géométriques
 
 **Transformation :** L'image évolue de 64 → 128 cartes de caractéristiques, doublant la capacité d'analyse des formes tout en se concentrant sur les aspects géométriques essentiels.
 """)
-                # === AJOUT DE L'ILLUSTRATION ===
+        
+        # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
         st.image(f"{image_path}bloc3.png", caption="Description de votre image", width=900) 
         
-        
-        st.markdown("""
-        <div class="info-box">
-            <h4> Fonctionnement interne</h4>
-            <ul>
-                <li><strong>Formes géométriques</strong> : Distingue rond (pomme) vs allongé (banane)</li>
-                <li><strong>Caractéristiques spécifiques</strong> : 128 filtres pour capturer des détails uniques</li>
-                <li><strong>Abstraction croissante</strong> : Passe des pixels aux concepts de forme</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+
         
         # Visualisations des filtres
         if current_image:
@@ -796,15 +976,18 @@ Le troisième bloc se concentre sur la **reconnaissance de formes géométriques
     with st.expander("**Bloc 4 - Caractéristiques Spécialisées (256 filtres)**", expanded=True):
         st.write("Détection des caractéristiques très spécifiques qui permettent de distinguer chaque fruit.")
         
-        st.write("""
-Le bloc final est **hautement spécialisé** avec 256 filtres et une architecture unique sans pooling pour préserver les détails les plus fins.
-
+        st.write("Le bloc final est **hautement spécialisé** avec 256 filtres et une architecture unique sans pooling pour préserver les détails les plus fins.")
+        
+        if show_detailed_process:
+            st.write("""
 **Architecture du Bloc 4 :**
 - **Conv2D(256, 3×3)** : UNE SEULE convolution avec 256 filtres ultra-spécialisés
 - **BatchNormalization** : Stabilise les 256 activations simultanées
 - **Dropout(25%)** : Régularisation finale avant la classification
 - **AUCUN MaxPooling** : Préserve la résolution spatiale (~9×9 → ~7×7) pour les détails critiques
-
+""")
+        
+        st.write("""
 **Ce que détecte ce bloc :**
 - **Rouge intense** d'une pomme vs **rouge-orangé** d'une pêche
 - **Vert foncé** d'un avocat mûr vs **vert clair** d'un avocat jeune
@@ -817,20 +1000,12 @@ Le bloc final est **hautement spécialisé** avec 256 filtres et une architectur
 
 **Transformation :** Passage de 128 → 256 cartes ultra-spécialisées qui capturent les signatures colorimétriques uniques, permettant une discrimination fine entre fruits similaires.
 """)
-                # === AJOUT DE L'ILLUSTRATION ===
+        
+        # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
         st.image(f"{image_path}bloc4.png", caption="Description de votre image", width=900) 
         
-        st.markdown("""
-        <div class="info-box">
-            <h4> Fonctionnement interne</h4>
-            <ul>
-                <li><strong>Analyse couleur avancée</strong> : Sépare rouge-pomme, vert-avocat, jaune-banane</li>
-                <li><strong>Spécialisation maximum</strong> : 256 filtres ultra-spécialisés par type de fruit</li>
-                <li><strong>Représentation finale</strong> : Combine forme, texture, couleur en signature unique</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+
         
         # Visualisations des filtres
         if current_image:
@@ -854,22 +1029,12 @@ Le bloc final est **hautement spécialisé** avec 256 filtres et une architectur
 
 **Résultat :** 256 nombres qui résument TOUTE l'information visuelle nécessaire pour identifier le fruit.
 """)
-                        # === AJOUT DE L'ILLUSTRATION ===
+        
+        # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
         st.image(f"{image_path}moyenne.png", caption="Description de votre image", width=900) 
         
 
-
-        st.markdown("""
-        <div class="info-box">
-            <h4> Fonctionnement interne</h4>
-            <ul>
-                <li><strong>Compression intelligente</strong> : Résume 12×12×256 = 36,864 valeurs en 256</li>
-                <li><strong>Invariance à la position</strong> : Peu importe où est le fruit dans l'image</li>
-                <li><strong>Préparation classification</strong> : Convertit les cartes 2D en vecteur 1D</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
         
         # Simulation des valeurs GAP
         if current_image:
@@ -900,9 +1065,10 @@ Le bloc final est **hautement spécialisé** avec 256 filtres et une architectur
     with st.expander("**Étape 7 - Classification Finale**", expanded=True):
         st.write("Le réseau transforme les 256 valeurs en probabilités pour chaque type de fruit.")
         
-        st.write("""
-La classification utilise **trois couches denses successives** pour transformer les 256 caractéristiques extraites en décision finale ultra-précise.
-
+        st.write("La classification utilise **trois couches denses successives** pour transformer les 256 caractéristiques extraites en décision finale ultra-précise.")
+        
+        if show_detailed_process:
+            st.write("""
 **Architecture de classification :**
 
 **1. Dense Layer 1 (256 → 512 neurones) :**
@@ -916,7 +1082,9 @@ La classification utilise **trois couches denses successives** pour transformer 
 **3. Dense Layer 3 (256 → 5 classes) :**
 - **Décision finale :** Transforme en probabilités via Softmax
 - **Sortie :** 5 probabilités qui somment à 100%
-
+""")
+        
+        st.write("""
 **Ce que traite cette étape :**
 - **Combinaisons complexes** : "Rouge + rond + lisse" = forte probabilité de pomme
 - **Associations multi-caractéristiques** : "Jaune + allongé + strié" = signature banane
@@ -929,20 +1097,12 @@ La classification utilise **trois couches denses successives** pour transformer 
 
 **Transformation :** Les 256 caractéristiques abstraites deviennent 5 probabilités concrètes permettant l'identification précise du fruit.
 """)
-                                # === AJOUT DE L'ILLUSTRATION ===
+        
+        # === AJOUT DE L'ILLUSTRATION ===
         st.markdown("####  Visualisation du processus")
         st.image(f"{image_path}finale.png", caption="Description de votre image", width=900) 
         
-        st.markdown("""
-        <div class="info-box">
-            <h4> Fonctionnement interne</h4>
-            <ul>
-                <li><strong>Décision finale</strong> : Convertit les caractéristiques en probabilités</li>
-                <li><strong>Fonction Softmax</strong> : Assure que toutes les probabilités somment à 100%</li>
-                <li><strong>Confiance mesurable</strong> : Plus la probabilité est élevée, plus le modèle est sûr</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+
         
         # Prédictions avec nouveau layout
         if current_image:
