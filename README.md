@@ -85,12 +85,6 @@ streamlit run app.py
 - ✅ Validation externe robuste
 - ✅ Documentation pédagogique
 
-### Futures améliorations
-- 🔄 Visualisation Grad-CAM
-- 📱 Version mobile native
-- 🌐 Déploiement TensorFlow.js
-- 📈 Apprentissage continu
-
 
 ## 👥 Auteurs
 
