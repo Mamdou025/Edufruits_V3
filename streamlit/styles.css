@@ -863,3 +863,126 @@ button[kind="secondary"]:hover {
 [data-testid="stSidebarNav"] {
     background: #f2f7ec !important;
 }
+
+/* Neutral gray overrides: remove the remaining green tint and any generated-looking shadows. */
+:root {
+    --edufruit-border: #d1d5db;
+    --edufruit-surface-soft: #f3f4f6;
+    --edufruit-green-soft: #f3f4f6;
+    --edufruit-green: #6b7280;
+}
+
+.stApp,
+.main,
+[data-testid="stAppViewContainer"] {
+    background: #f7f7f7 !important;
+}
+
+[data-testid="stHeader"] {
+    background: rgba(247, 247, 247, 0.96) !important;
+    border-bottom-color: #e5e7eb !important;
+    box-shadow: none !important;
+}
+
+.info-box,
+.warning-box,
+.success-box,
+.metric-card,
+.filter-card,
+.prediction-container,
+.prediction-result-compact,
+.step-container,
+.architecture-container,
+.progress-container,
+.sidebar-section,
+.title-container,
+[data-testid="stExpander"],
+[data-testid="stExpander"] details,
+[data-testid="stExpander"] details > div,
+[data-testid="stExpander"] summary,
+.streamlit-expanderHeader,
+[data-testid="stFileUploader"],
+[data-testid="stFileUploaderDropzone"],
+[data-testid="stFileUploaderDropzone"] > div,
+[data-testid="stAlert"] {
+    filter: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+.info-box,
+.warning-box,
+.success-box,
+.prediction-container,
+.prediction-result-compact,
+.metric-card,
+.filter-card,
+.step-container,
+.architecture-container,
+.progress-container,
+.sidebar-section {
+    background: #f3f4f6 !important;
+    border: 1px solid #d1d5db !important;
+    border-left: 1px solid #d1d5db !important;
+}
+
+[data-testid="stExpander"] {
+    background: #ffffff !important;
+    border: 1px solid #d1d5db !important;
+}
+
+[data-testid="stExpander"] summary,
+.streamlit-expanderHeader {
+    background: #f3f4f6 !important;
+    border-bottom: 1px solid #d1d5db !important;
+    color: #374151 !important;
+}
+
+[data-testid="stExpander"] summary > div,
+[data-testid="stExpander"] summary span,
+[data-testid="stExpander"] summary p,
+.streamlit-expanderHeader p,
+[data-testid="stExpander"] summary svg {
+    background: transparent !important;
+    color: #374151 !important;
+    fill: #374151 !important;
+}
+
+[data-testid="stSidebar"],
+[data-testid="stSidebarContent"],
+[data-testid="stSidebarNav"] {
+    background: #f3f4f6 !important;
+    border-right-color: #d1d5db !important;
+}
+
+[data-testid="stFileUploader"],
+[data-testid="stFileUploaderDropzone"],
+[data-testid="stFileUploaderDropzone"] > div,
+[data-testid="stFileUploaderDropzone"] small {
+    background: #f3f4f6 !important;
+    border-color: #d1d5db !important;
+    color: var(--edufruit-ink) !important;
+}
+
+[data-testid="stFileUploader"] button,
+[data-testid="stFileUploaderDropzone"] button,
+.stButton > button,
+button[kind="secondary"],
+.custom-button {
+    background: #ffffff !important;
+    border: 1px solid #9ca3af !important;
+    color: #374151 !important;
+    box-shadow: none !important;
+}
+
+[data-testid="stFileUploader"] button:hover,
+[data-testid="stFileUploaderDropzone"] button:hover,
+.stButton > button:hover,
+button[kind="secondary"]:hover,
+.custom-button:hover {
+    background: #e5e7eb !important;
+    border-color: #6b7280 !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
