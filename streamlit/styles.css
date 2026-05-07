@@ -632,25 +632,25 @@
 :root {
     --edufruit-ink: #1f2933;
     --edufruit-muted: #52616b;
-    --edufruit-border: #d7dbe2;
+    --edufruit-border: #d8e6d1;
     --edufruit-surface: #ffffff;
-    --edufruit-surface-soft: #f3f4f6;
-    --edufruit-neutral-soft: #eef0f3;
-    --edufruit-neutral-accent: #6b7280;
-    --edufruit-blue-soft: #f2f4f7;
-    --edufruit-yellow-soft: #f5f3ef;
+    --edufruit-surface-soft: #f7fbf2;
+    --edufruit-green-soft: #e9f7df;
+    --edufruit-green: #5b8f2d;
+    --edufruit-blue-soft: #edf6ff;
+    --edufruit-yellow-soft: #fff7d8;
 }
 
 .stApp,
 .main,
 [data-testid="stAppViewContainer"] {
-    background: #f7f7f8 !important;
+    background: #fbfdf8 !important;
     color: var(--edufruit-ink) !important;
 }
 
 [data-testid="stHeader"] {
-    background: rgba(247, 247, 248, 0.96) !important;
-    border-bottom: 1px solid #e4e7ec !important;
+    background: rgba(251, 253, 248, 0.96) !important;
+    border-bottom: 1px solid #edf3e8 !important;
 }
 
 .stMarkdown,
@@ -672,11 +672,11 @@ label {
     background: var(--edufruit-surface) !important;
     border: 1px solid var(--edufruit-border) !important;
     border-radius: 12px !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .title-container h1 {
-    color: #1f2937 !important;
+    color: #20311a !important;
 }
 
 .title-container h3,
@@ -684,12 +684,12 @@ label {
     color: var(--edufruit-muted) !important;
 }
 
-/* Streamlit expanders: replace dark bars with soft light-gray section headers. */
+/* Streamlit expanders: replace dark bars with soft fruit-green section headers. */
 [data-testid="stExpander"] {
     background: var(--edufruit-surface) !important;
     border: 1px solid var(--edufruit-border) !important;
     border-radius: 10px !important;
-    box-shadow: none;
+    box-shadow: none !important;
     overflow: hidden !important;
 }
 
@@ -700,26 +700,26 @@ label {
 
 [data-testid="stExpander"] summary,
 .streamlit-expanderHeader {
-    background: var(--edufruit-neutral-soft) !important;
+    background: var(--edufruit-green-soft) !important;
     border-bottom: 1px solid var(--edufruit-border) !important;
-    color: #374151 !important;
+    color: #284718 !important;
     font-weight: 700 !important;
 }
 
 [data-testid="stExpander"] summary p,
 .streamlit-expanderHeader p,
 [data-testid="stExpander"] summary svg {
-    color: #374151 !important;
-    fill: #374151 !important;
+    color: #284718 !important;
+    fill: #284718 !important;
 }
 
 /* File upload: keep actions visible with a bright panel and clear button affordance. */
 [data-testid="stFileUploader"] {
-    background: #f5f6f8 !important;
-    border: 1px dashed #c4c9d2 !important;
+    background: #f4faef !important;
+    border: 1px dashed #a8ca91 !important;
     border-radius: 10px !important;
     padding: 0.85rem !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 [data-testid="stFileUploader"] section,
@@ -732,29 +732,29 @@ label {
 .stButton > button,
 button[kind="secondary"] {
     background: #ffffff !important;
-    border: 1px solid #b8bec9 !important;
+    border: 1px solid #8fbf74 !important;
     border-radius: 8px !important;
-    color: #374151 !important;
-    box-shadow: none;
+    color: #284718 !important;
+    box-shadow: none !important;
 }
 
 [data-testid="stFileUploader"] button:hover,
 .stButton > button:hover,
 button[kind="secondary"]:hover {
-    background: var(--edufruit-neutral-soft) !important;
-    border-color: #6b7280 !important;
-    color: #1f2937 !important;
+    background: var(--edufruit-green-soft) !important;
+    border-color: var(--edufruit-green) !important;
+    color: #20311a !important;
     transform: none !important;
 }
 
 [data-testid="stAlert"] {
     border-radius: 9px !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 /* Sidebar: softer contrast without the heavy charcoal blocks. */
 [data-testid="stSidebar"] {
-    background: #f0f1f3 !important;
+    background: #f2f7ec !important;
     border-right: 1px solid var(--edufruit-border) !important;
 }
 
@@ -790,24 +790,24 @@ button[kind="secondary"]:hover {
 .step-container,
 .architecture-container,
 .progress-container {
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .info-box {
     background-color: var(--edufruit-blue-soft) !important;
-    border-left-color: #c4c9d2 !important;
+    border-left-color: #5aa7df !important;
 }
 
 .warning-box {
     background-color: var(--edufruit-yellow-soft) !important;
-    border-left-color: #c4c9d2 !important;
+    border-left-color: #e8b832 !important;
 }
 
 .success-box,
 .prediction-result-compact,
 .prediction-container {
-    background: var(--edufruit-neutral-soft) !important;
-    border-color: #c4c9d2 !important;
+    background: var(--edufruit-green-soft) !important;
+    border-color: #8fbf74 !important;
 }
 
 .metric-card,
@@ -824,73 +824,42 @@ button[kind="secondary"]:hover {
 .filter-card:hover,
 .step-container:hover,
 .custom-button:hover {
-    box-shadow: none;
+    box-shadow: none !important;
     transform: none !important;
 }
 
 .custom-button {
-    background: #4b5563 !important;
-    border: 1px solid #374151 !important;
+    background: #5b8f2d !important;
+    border: 1px solid #4c7d24 !important;
     color: #ffffff !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 /* Extra Streamlit-version-safe selectors for the upload dropzone and expander internals. */
 [data-testid="stFileUploaderDropzone"],
 [data-testid="stFileUploaderDropzone"] > div,
 [data-testid="stFileUploaderDropzone"] small {
-    background: #f5f6f8 !important;
-    border-color: #c4c9d2 !important;
+    background: #f4faef !important;
+    border-color: #a8ca91 !important;
     color: var(--edufruit-ink) !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 [data-testid="stFileUploaderDropzone"] button {
     background: #ffffff !important;
-    border: 1px solid #b8bec9 !important;
-    color: #374151 !important;
-    box-shadow: none;
+    border: 1px solid #8fbf74 !important;
+    color: #284718 !important;
+    box-shadow: none !important;
 }
 
 [data-testid="stExpander"] summary > div,
 [data-testid="stExpander"] summary span,
 [data-testid="stExpander"] summary p {
     background: transparent !important;
-    color: #374151 !important;
+    color: #284718 !important;
 }
 
 [data-testid="stSidebarContent"],
 [data-testid="stSidebarNav"] {
-    background: #f0f1f3 !important;
-}
-
-/* Final anti-shadow reset: keep every app surface flat, including Streamlit internals. */
-.stApp *,
-[data-testid="stAppViewContainer"] *,
-[data-testid="stSidebar"] * {
-    box-shadow: none !important;
-    text-shadow: none !important;
-}
-
-/* Flat informational panels: keep color-coding but remove the raised card/stripe look. */
-.info-box,
-.warning-box,
-.success-box,
-.formula-box,
-.sidebar-section {
-    border-left-width: 0 !important;
-    border: 1px solid var(--edufruit-border) !important;
-    border-radius: 6px !important;
-}
-
-.info-box {
-    background-color: #f3f4f6 !important;
-}
-
-.warning-box {
-    background-color: #f5f5f4 !important;
-}
-
-.success-box {
-    background-color: #f1f3f5 !important;
+    background: #f2f7ec !important;
 }
