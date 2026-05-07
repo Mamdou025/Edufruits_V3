@@ -85,7 +85,7 @@
     border-radius: 15px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 4px 20px rgba(40, 167, 69, 0.1);
+    box-shadow: none;
     margin-top: 20px;
 }
 
@@ -138,7 +138,7 @@
     text-align: center;
     color: #000000;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: none;
 }
 
 /* Conteneurs d'étapes */
@@ -153,8 +153,7 @@
 }
 
 .step-container:hover {
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transform: translateY(-2px);
+    box-shadow: none;
 }
 
 /* Boîtes d'informations */
@@ -214,7 +213,7 @@
 
 .filter-card:hover {
     border-color: #3498db;
-    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+    box-shadow: none;
 }
 
 /* Cartes de métriques */
@@ -225,13 +224,12 @@
     text-align: center;
     border: 1px solid #e9ecef;
     margin: 10px 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: none;
     transition: all 0.3s ease;
 }
 
 .metric-card:hover {
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transform: translateY(-2px);
+    box-shadow: none;
 }
 
 /* Conteneur de progression */
@@ -257,7 +255,7 @@
     padding: 20px;
     margin: 15px 0;
     text-align: center;
-    box-shadow: 0 4px 20px rgba(40, 167, 69, 0.1);
+    box-shadow: none;
 }
 
 .prediction-result {
@@ -339,8 +337,7 @@
 }
 
 .custom-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: none;
 }
 
 /* Sidebar personnalisée */
@@ -412,7 +409,7 @@
     text-align: center;
     color: #000000;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: none;
 }
 
 /* Conteneurs d'étapes */
@@ -427,8 +424,7 @@
 }
 
 .step-container:hover {
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transform: translateY(-2px);
+    box-shadow: none;
 }
 
 /* Boîtes d'informations */
@@ -488,7 +484,7 @@
 
 .filter-card:hover {
     border-color: #3498db;
-    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+    box-shadow: none;
 }
 
 /* Cartes de métriques */
@@ -499,13 +495,12 @@
     text-align: center;
     border: 1px solid #e9ecef;
     margin: 10px 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: none;
     transition: all 0.3s ease;
 }
 
 .metric-card:hover {
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transform: translateY(-2px);
+    box-shadow: none;
 }
 
 /* Conteneur de progression */
@@ -531,7 +526,7 @@
     padding: 20px;
     margin: 15px 0;
     text-align: center;
-    box-shadow: 0 4px 20px rgba(40, 167, 69, 0.1);
+    box-shadow: none;
 }
 
 .prediction-result {
@@ -601,8 +596,7 @@
 }
 
 .custom-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: none;
 }
 
 /* Sidebar personnalisée */
@@ -633,4 +627,270 @@
 
 .status-error {
     background-color: #dc3545;
+}
+/* UI polish: lighter educational palette and flatter surfaces */
+:root {
+    --edufruit-ink: #1f2933;
+    --edufruit-muted: #52616b;
+    --edufruit-border: #d8e6d1;
+    --edufruit-surface: #ffffff;
+    --edufruit-surface-soft: #f7fbf2;
+    --edufruit-green-soft: #e9f7df;
+    --edufruit-green: #5b8f2d;
+    --edufruit-blue-soft: #edf6ff;
+    --edufruit-yellow-soft: #fff7d8;
+}
+
+.stApp,
+.main,
+[data-testid="stAppViewContainer"] {
+    background: #fbfdf8 !important;
+    color: var(--edufruit-ink) !important;
+}
+
+[data-testid="stHeader"] {
+    background: rgba(251, 253, 248, 0.96) !important;
+    border-bottom: 1px solid #edf3e8 !important;
+}
+
+.stMarkdown,
+.stText,
+p,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label {
+    color: var(--edufruit-ink) !important;
+}
+
+.title-container {
+    background: var(--edufruit-surface) !important;
+    border: 1px solid var(--edufruit-border) !important;
+    border-radius: 12px !important;
+    box-shadow: none;
+}
+
+.title-container h1 {
+    color: #20311a !important;
+}
+
+.title-container h3,
+.title-container p {
+    color: var(--edufruit-muted) !important;
+}
+
+/* Streamlit expanders: replace dark bars with soft fruit-green section headers. */
+[data-testid="stExpander"] {
+    background: var(--edufruit-surface) !important;
+    border: 1px solid var(--edufruit-border) !important;
+    border-radius: 10px !important;
+    box-shadow: none;
+    overflow: hidden !important;
+}
+
+[data-testid="stExpander"] details,
+[data-testid="stExpander"] details > div {
+    background: var(--edufruit-surface) !important;
+}
+
+[data-testid="stExpander"] summary,
+.streamlit-expanderHeader {
+    background: var(--edufruit-green-soft) !important;
+    border-bottom: 1px solid var(--edufruit-border) !important;
+    color: #284718 !important;
+    font-weight: 700 !important;
+}
+
+[data-testid="stExpander"] summary p,
+.streamlit-expanderHeader p,
+[data-testid="stExpander"] summary svg {
+    color: #284718 !important;
+    fill: #284718 !important;
+}
+
+/* File upload: keep actions visible with a bright panel and clear button affordance. */
+[data-testid="stFileUploader"] {
+    background: #f4faef !important;
+    border: 1px dashed #a8ca91 !important;
+    border-radius: 10px !important;
+    padding: 0.85rem !important;
+    box-shadow: none;
+}
+
+[data-testid="stFileUploader"] section,
+[data-testid="stFileUploader"] div {
+    background-color: transparent !important;
+    color: var(--edufruit-ink) !important;
+}
+
+[data-testid="stFileUploader"] button,
+.stButton > button,
+button[kind="secondary"] {
+    background: #ffffff !important;
+    border: 1px solid #8fbf74 !important;
+    border-radius: 8px !important;
+    color: #284718 !important;
+    box-shadow: none;
+}
+
+[data-testid="stFileUploader"] button:hover,
+.stButton > button:hover,
+button[kind="secondary"]:hover {
+    background: var(--edufruit-green-soft) !important;
+    border-color: var(--edufruit-green) !important;
+    color: #20311a !important;
+    transform: none !important;
+}
+
+[data-testid="stAlert"] {
+    border-radius: 9px !important;
+    box-shadow: none;
+}
+
+/* Sidebar: softer contrast without the heavy charcoal blocks. */
+[data-testid="stSidebar"] {
+    background: #f2f7ec !important;
+    border-right: 1px solid var(--edufruit-border) !important;
+}
+
+[data-testid="stSidebar"] > div,
+[data-testid="stSidebar"] section,
+[data-testid="stSidebar"] .block-container {
+    background: transparent !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"],
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3,
+[data-testid="stSidebar"] h4 {
+    color: var(--edufruit-ink) !important;
+}
+
+[data-testid="stSidebar"] .stSelectbox > div,
+[data-testid="stSidebar"] [data-baseweb="select"],
+[data-testid="stSidebar"] [data-testid="stCheckbox"] label,
+.sidebar-section,
+.info-box,
+.warning-box,
+.success-box,
+.formula-box,
+.metric-card,
+.filter-card,
+.prediction-container,
+.prediction-result-compact,
+.step-container,
+.architecture-container,
+.progress-container {
+    box-shadow: none;
+}
+
+.info-box {
+    background-color: var(--edufruit-blue-soft) !important;
+    border-left-color: #5aa7df !important;
+}
+
+.warning-box {
+    background-color: var(--edufruit-yellow-soft) !important;
+    border-left-color: #e8b832 !important;
+}
+
+.success-box,
+.prediction-result-compact,
+.prediction-container {
+    background: var(--edufruit-green-soft) !important;
+    border-color: #8fbf74 !important;
+}
+
+.metric-card,
+.filter-card,
+.step-container,
+.architecture-container,
+.progress-container,
+.sidebar-section {
+    background: var(--edufruit-surface-soft) !important;
+    border-color: var(--edufruit-border) !important;
+}
+
+.metric-card:hover,
+.filter-card:hover,
+.step-container:hover,
+.custom-button:hover {
+    box-shadow: none;
+    transform: none !important;
+}
+
+.custom-button {
+    background: #5b8f2d !important;
+    border: 1px solid #4c7d24 !important;
+    color: #ffffff !important;
+    box-shadow: none;
+}
+
+/* Extra Streamlit-version-safe selectors for the upload dropzone and expander internals. */
+[data-testid="stFileUploaderDropzone"],
+[data-testid="stFileUploaderDropzone"] > div,
+[data-testid="stFileUploaderDropzone"] small {
+    background: #f4faef !important;
+    border-color: #a8ca91 !important;
+    color: var(--edufruit-ink) !important;
+    box-shadow: none;
+}
+
+[data-testid="stFileUploaderDropzone"] button {
+    background: #ffffff !important;
+    border: 1px solid #8fbf74 !important;
+    color: #284718 !important;
+    box-shadow: none;
+}
+
+[data-testid="stExpander"] summary > div,
+[data-testid="stExpander"] summary span,
+[data-testid="stExpander"] summary p {
+    background: transparent !important;
+    color: #284718 !important;
+}
+
+[data-testid="stSidebarContent"],
+[data-testid="stSidebarNav"] {
+    background: #f2f7ec !important;
+}
+
+/* Final anti-shadow reset: keep every app surface flat, including Streamlit internals. */
+.stApp *,
+[data-testid="stAppViewContainer"] *,
+[data-testid="stSidebar"] * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+/* Flat informational panels: keep color-coding but remove the raised card/stripe look. */
+.info-box,
+.warning-box,
+.success-box,
+.formula-box,
+.sidebar-section {
+    border-left-width: 0 !important;
+    border: 1px solid var(--edufruit-border) !important;
+    border-radius: 6px !important;
+}
+
+.info-box {
+    background-color: #f1f7fd !important;
+}
+
+.warning-box {
+    background-color: #fff9e6 !important;
+}
+
+.success-box {
+    background-color: #eef8e8 !important;
 }
