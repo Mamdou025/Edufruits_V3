@@ -672,7 +672,7 @@ label {
     background: var(--edufruit-surface) !important;
     border: 1px solid var(--edufruit-border) !important;
     border-radius: 12px !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .title-container h1 {
@@ -689,7 +689,7 @@ label {
     background: var(--edufruit-surface) !important;
     border: 1px solid var(--edufruit-border) !important;
     border-radius: 10px !important;
-    box-shadow: none;
+    box-shadow: none !important;
     overflow: hidden !important;
 }
 
@@ -719,7 +719,7 @@ label {
     border: 1px dashed #a8ca91 !important;
     border-radius: 10px !important;
     padding: 0.85rem !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 [data-testid="stFileUploader"] section,
@@ -735,7 +735,7 @@ button[kind="secondary"] {
     border: 1px solid #8fbf74 !important;
     border-radius: 8px !important;
     color: #284718 !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 [data-testid="stFileUploader"] button:hover,
@@ -749,7 +749,7 @@ button[kind="secondary"]:hover {
 
 [data-testid="stAlert"] {
     border-radius: 9px !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 /* Sidebar: softer contrast without the heavy charcoal blocks. */
@@ -790,7 +790,7 @@ button[kind="secondary"]:hover {
 .step-container,
 .architecture-container,
 .progress-container {
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .info-box {
@@ -824,7 +824,7 @@ button[kind="secondary"]:hover {
 .filter-card:hover,
 .step-container:hover,
 .custom-button:hover {
-    box-shadow: none;
+    box-shadow: none !important;
     transform: none !important;
 }
 
@@ -832,7 +832,7 @@ button[kind="secondary"]:hover {
     background: #5b8f2d !important;
     border: 1px solid #4c7d24 !important;
     color: #ffffff !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 /* Extra Streamlit-version-safe selectors for the upload dropzone and expander internals. */
@@ -842,14 +842,14 @@ button[kind="secondary"]:hover {
     background: #f4faef !important;
     border-color: #a8ca91 !important;
     color: var(--edufruit-ink) !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 [data-testid="stFileUploaderDropzone"] button {
     background: #ffffff !important;
     border: 1px solid #8fbf74 !important;
     color: #284718 !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 [data-testid="stExpander"] summary > div,
@@ -862,35 +862,4 @@ button[kind="secondary"]:hover {
 [data-testid="stSidebarContent"],
 [data-testid="stSidebarNav"] {
     background: #f2f7ec !important;
-}
-
-/* Final anti-shadow reset: keep every app surface flat, including Streamlit internals. */
-.stApp *,
-[data-testid="stAppViewContainer"] *,
-[data-testid="stSidebar"] * {
-    box-shadow: none !important;
-    text-shadow: none !important;
-}
-
-/* Flat informational panels: keep color-coding but remove the raised card/stripe look. */
-.info-box,
-.warning-box,
-.success-box,
-.formula-box,
-.sidebar-section {
-    border-left-width: 0 !important;
-    border: 1px solid var(--edufruit-border) !important;
-    border-radius: 6px !important;
-}
-
-.info-box {
-    background-color: #f1f7fd !important;
-}
-
-.warning-box {
-    background-color: #fff9e6 !important;
-}
-
-.success-box {
-    background-color: #eef8e8 !important;
 }
