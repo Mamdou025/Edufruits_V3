@@ -81,16 +81,16 @@
 /* Nouveau design pour la prédiction finale */
 .prediction-result-compact {
     background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%);
-    border: 2px solid #28a745;
+    border: 2px solid #6b7280;
     border-radius: 15px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 4px 20px rgba(40, 167, 69, 0.1);
+    box-shadow: none;
     margin-top: 20px;
 }
 
 .prediction-result-compact h3 {
-    color: #28a745 !important;
+    color: #6b7280 !important;
     margin-bottom: 15px !important;
     font-size: 1.1em !important;
 }
@@ -119,7 +119,7 @@
 .confidence-score {
     font-size: 2em;
     font-weight: bold;
-    color: #28a745 !important;
+    color: #6b7280 !important;
     margin: 10px 0 5px 0;
 }
 
@@ -138,7 +138,7 @@
     text-align: center;
     color: #000000;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: none;
 }
 
 /* Conteneurs d'étapes */
@@ -153,8 +153,7 @@
 }
 
 .step-container:hover {
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transform: translateY(-2px);
+    box-shadow: none;
 }
 
 /* Boîtes d'informations */
@@ -187,8 +186,8 @@
 }
 
 .success-box {
-    background-color: #D4EDDA;
-    border-left: 4px solid #28A745;
+    background-color: #f1f3f5;
+    border-left: 4px solid #6b7280;
     padding: 10px;
     margin: 10px 0;
     color: #000000;
@@ -214,7 +213,7 @@
 
 .filter-card:hover {
     border-color: #3498db;
-    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+    box-shadow: none;
 }
 
 /* Cartes de métriques */
@@ -225,13 +224,12 @@
     text-align: center;
     border: 1px solid #e9ecef;
     margin: 10px 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: none;
     transition: all 0.3s ease;
 }
 
 .metric-card:hover {
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transform: translateY(-2px);
+    box-shadow: none;
 }
 
 /* Conteneur de progression */
@@ -252,12 +250,12 @@
 /* Conteneur de prédiction */
 .prediction-container {
     background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
-    border: 2px solid #28a745;
+    border: 2px solid #6b7280;
     border-radius: 15px;
     padding: 20px;
     margin: 15px 0;
     text-align: center;
-    box-shadow: 0 4px 20px rgba(40, 167, 69, 0.1);
+    box-shadow: none;
 }
 
 .prediction-result {
@@ -339,8 +337,7 @@
 }
 
 .custom-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: none;
 }
 
 /* Sidebar personnalisée */
@@ -362,7 +359,7 @@
 }
 
 .status-success {
-    background-color: #28a745;
+    background-color: #6b7280;
 }
 
 .status-warning {
@@ -412,7 +409,7 @@
     text-align: center;
     color: #000000;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: none;
 }
 
 /* Conteneurs d'étapes */
@@ -427,8 +424,7 @@
 }
 
 .step-container:hover {
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transform: translateY(-2px);
+    box-shadow: none;
 }
 
 /* Boîtes d'informations */
@@ -461,8 +457,8 @@
 }
 
 .success-box {
-    background-color: #D4EDDA;
-    border-left: 4px solid #28A745;
+    background-color: #f1f3f5;
+    border-left: 4px solid #6b7280;
     padding: 10px;
     margin: 10px 0;
     color: #000000;
@@ -488,7 +484,7 @@
 
 .filter-card:hover {
     border-color: #3498db;
-    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+    box-shadow: none;
 }
 
 /* Cartes de métriques */
@@ -499,13 +495,12 @@
     text-align: center;
     border: 1px solid #e9ecef;
     margin: 10px 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: none;
     transition: all 0.3s ease;
 }
 
 .metric-card:hover {
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transform: translateY(-2px);
+    box-shadow: none;
 }
 
 /* Conteneur de progression */
@@ -526,12 +521,12 @@
 /* Conteneur de prédiction */
 .prediction-container {
     background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
-    border: 2px solid #28a745;
+    border: 2px solid #6b7280;
     border-radius: 15px;
     padding: 20px;
     margin: 15px 0;
     text-align: center;
-    box-shadow: 0 4px 20px rgba(40, 167, 69, 0.1);
+    box-shadow: none;
 }
 
 .prediction-result {
@@ -601,8 +596,7 @@
 }
 
 .custom-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: none;
 }
 
 /* Sidebar personnalisée */
@@ -624,7 +618,7 @@
 }
 
 .status-success {
-    background-color: #28a745;
+    background-color: #6b7280;
 }
 
 .status-warning {
@@ -633,4 +627,270 @@
 
 .status-error {
     background-color: #dc3545;
+}
+/* UI polish: lighter educational palette and flatter surfaces */
+:root {
+    --edufruit-ink: #1f2933;
+    --edufruit-muted: #52616b;
+    --edufruit-border: #d7dbe2;
+    --edufruit-surface: #ffffff;
+    --edufruit-surface-soft: #f3f4f6;
+    --edufruit-neutral-soft: #eef0f3;
+    --edufruit-neutral-accent: #6b7280;
+    --edufruit-blue-soft: #f2f4f7;
+    --edufruit-yellow-soft: #f5f3ef;
+}
+
+.stApp,
+.main,
+[data-testid="stAppViewContainer"] {
+    background: #f7f7f8 !important;
+    color: var(--edufruit-ink) !important;
+}
+
+[data-testid="stHeader"] {
+    background: rgba(247, 247, 248, 0.96) !important;
+    border-bottom: 1px solid #e4e7ec !important;
+}
+
+.stMarkdown,
+.stText,
+p,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label {
+    color: var(--edufruit-ink) !important;
+}
+
+.title-container {
+    background: var(--edufruit-surface) !important;
+    border: 1px solid var(--edufruit-border) !important;
+    border-radius: 12px !important;
+    box-shadow: none;
+}
+
+.title-container h1 {
+    color: #1f2937 !important;
+}
+
+.title-container h3,
+.title-container p {
+    color: var(--edufruit-muted) !important;
+}
+
+/* Streamlit expanders: replace dark bars with soft light-gray section headers. */
+[data-testid="stExpander"] {
+    background: var(--edufruit-surface) !important;
+    border: 1px solid var(--edufruit-border) !important;
+    border-radius: 10px !important;
+    box-shadow: none;
+    overflow: hidden !important;
+}
+
+[data-testid="stExpander"] details,
+[data-testid="stExpander"] details > div {
+    background: var(--edufruit-surface) !important;
+}
+
+[data-testid="stExpander"] summary,
+.streamlit-expanderHeader {
+    background: var(--edufruit-neutral-soft) !important;
+    border-bottom: 1px solid var(--edufruit-border) !important;
+    color: #374151 !important;
+    font-weight: 700 !important;
+}
+
+[data-testid="stExpander"] summary p,
+.streamlit-expanderHeader p,
+[data-testid="stExpander"] summary svg {
+    color: #374151 !important;
+    fill: #374151 !important;
+}
+
+/* File upload: keep actions visible with a bright panel and clear button affordance. */
+[data-testid="stFileUploader"] {
+    background: #f5f6f8 !important;
+    border: 1px dashed #c4c9d2 !important;
+    border-radius: 10px !important;
+    padding: 0.85rem !important;
+    box-shadow: none;
+}
+
+[data-testid="stFileUploader"] section,
+[data-testid="stFileUploader"] div {
+    background-color: transparent !important;
+    color: var(--edufruit-ink) !important;
+}
+
+[data-testid="stFileUploader"] button,
+.stButton > button,
+button[kind="secondary"] {
+    background: #ffffff !important;
+    border: 1px solid #b8bec9 !important;
+    border-radius: 8px !important;
+    color: #374151 !important;
+    box-shadow: none;
+}
+
+[data-testid="stFileUploader"] button:hover,
+.stButton > button:hover,
+button[kind="secondary"]:hover {
+    background: var(--edufruit-neutral-soft) !important;
+    border-color: #6b7280 !important;
+    color: #1f2937 !important;
+    transform: none !important;
+}
+
+[data-testid="stAlert"] {
+    border-radius: 9px !important;
+    box-shadow: none;
+}
+
+/* Sidebar: softer contrast without the heavy charcoal blocks. */
+[data-testid="stSidebar"] {
+    background: #f0f1f3 !important;
+    border-right: 1px solid var(--edufruit-border) !important;
+}
+
+[data-testid="stSidebar"] > div,
+[data-testid="stSidebar"] section,
+[data-testid="stSidebar"] .block-container {
+    background: transparent !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"],
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3,
+[data-testid="stSidebar"] h4 {
+    color: var(--edufruit-ink) !important;
+}
+
+[data-testid="stSidebar"] .stSelectbox > div,
+[data-testid="stSidebar"] [data-baseweb="select"],
+[data-testid="stSidebar"] [data-testid="stCheckbox"] label,
+.sidebar-section,
+.info-box,
+.warning-box,
+.success-box,
+.formula-box,
+.metric-card,
+.filter-card,
+.prediction-container,
+.prediction-result-compact,
+.step-container,
+.architecture-container,
+.progress-container {
+    box-shadow: none;
+}
+
+.info-box {
+    background-color: var(--edufruit-blue-soft) !important;
+    border-left-color: #c4c9d2 !important;
+}
+
+.warning-box {
+    background-color: var(--edufruit-yellow-soft) !important;
+    border-left-color: #c4c9d2 !important;
+}
+
+.success-box,
+.prediction-result-compact,
+.prediction-container {
+    background: var(--edufruit-neutral-soft) !important;
+    border-color: #c4c9d2 !important;
+}
+
+.metric-card,
+.filter-card,
+.step-container,
+.architecture-container,
+.progress-container,
+.sidebar-section {
+    background: var(--edufruit-surface-soft) !important;
+    border-color: var(--edufruit-border) !important;
+}
+
+.metric-card:hover,
+.filter-card:hover,
+.step-container:hover,
+.custom-button:hover {
+    box-shadow: none;
+    transform: none !important;
+}
+
+.custom-button {
+    background: #4b5563 !important;
+    border: 1px solid #374151 !important;
+    color: #ffffff !important;
+    box-shadow: none;
+}
+
+/* Extra Streamlit-version-safe selectors for the upload dropzone and expander internals. */
+[data-testid="stFileUploaderDropzone"],
+[data-testid="stFileUploaderDropzone"] > div,
+[data-testid="stFileUploaderDropzone"] small {
+    background: #f5f6f8 !important;
+    border-color: #c4c9d2 !important;
+    color: var(--edufruit-ink) !important;
+    box-shadow: none;
+}
+
+[data-testid="stFileUploaderDropzone"] button {
+    background: #ffffff !important;
+    border: 1px solid #b8bec9 !important;
+    color: #374151 !important;
+    box-shadow: none;
+}
+
+[data-testid="stExpander"] summary > div,
+[data-testid="stExpander"] summary span,
+[data-testid="stExpander"] summary p {
+    background: transparent !important;
+    color: #374151 !important;
+}
+
+[data-testid="stSidebarContent"],
+[data-testid="stSidebarNav"] {
+    background: #f0f1f3 !important;
+}
+
+/* Final anti-shadow reset: keep every app surface flat, including Streamlit internals. */
+.stApp *,
+[data-testid="stAppViewContainer"] *,
+[data-testid="stSidebar"] * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+/* Flat informational panels: keep color-coding but remove the raised card/stripe look. */
+.info-box,
+.warning-box,
+.success-box,
+.formula-box,
+.sidebar-section {
+    border-left-width: 0 !important;
+    border: 1px solid var(--edufruit-border) !important;
+    border-radius: 6px !important;
+}
+
+.info-box {
+    background-color: #f3f4f6 !important;
+}
+
+.warning-box {
+    background-color: #f5f5f4 !important;
+}
+
+.success-box {
+    background-color: #f1f3f5 !important;
 }
