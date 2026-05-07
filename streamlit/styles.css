@@ -81,7 +81,7 @@
 /* Nouveau design pour la prédiction finale */
 .prediction-result-compact {
     background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%);
-    border: 2px solid #28a745;
+    border: 2px solid #6b7280;
     border-radius: 15px;
     padding: 20px;
     text-align: center;
@@ -90,7 +90,7 @@
 }
 
 .prediction-result-compact h3 {
-    color: #28a745 !important;
+    color: #6b7280 !important;
     margin-bottom: 15px !important;
     font-size: 1.1em !important;
 }
@@ -119,7 +119,7 @@
 .confidence-score {
     font-size: 2em;
     font-weight: bold;
-    color: #28a745 !important;
+    color: #6b7280 !important;
     margin: 10px 0 5px 0;
 }
 
@@ -186,8 +186,8 @@
 }
 
 .success-box {
-    background-color: #D4EDDA;
-    border-left: 4px solid #28A745;
+    background-color: #f1f3f5;
+    border-left: 4px solid #6b7280;
     padding: 10px;
     margin: 10px 0;
     color: #000000;
@@ -250,7 +250,7 @@
 /* Conteneur de prédiction */
 .prediction-container {
     background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
-    border: 2px solid #28a745;
+    border: 2px solid #6b7280;
     border-radius: 15px;
     padding: 20px;
     margin: 15px 0;
@@ -359,7 +359,7 @@
 }
 
 .status-success {
-    background-color: #28a745;
+    background-color: #6b7280;
 }
 
 .status-warning {
@@ -457,8 +457,8 @@
 }
 
 .success-box {
-    background-color: #D4EDDA;
-    border-left: 4px solid #28A745;
+    background-color: #f1f3f5;
+    border-left: 4px solid #6b7280;
     padding: 10px;
     margin: 10px 0;
     color: #000000;
@@ -521,7 +521,7 @@
 /* Conteneur de prédiction */
 .prediction-container {
     background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
-    border: 2px solid #28a745;
+    border: 2px solid #6b7280;
     border-radius: 15px;
     padding: 20px;
     margin: 15px 0;
@@ -618,7 +618,7 @@
 }
 
 .status-success {
-    background-color: #28a745;
+    background-color: #6b7280;
 }
 
 .status-warning {
